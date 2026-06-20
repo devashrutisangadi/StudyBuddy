@@ -38,7 +38,6 @@ public class ChatViewModel extends AndroidViewModel {
     }
 
     public void sendMessage(String userText) {
-        // Save user's message immediately
         ChatMessage userMsg = new ChatMessage();
         userMsg.subjectId = subjectId;
         userMsg.message = userText;
@@ -48,29 +47,14 @@ public class ChatViewModel extends AndroidViewModel {
 
         isLoading.setValue(true);
 
-        // Fetch notes + build prompt + call Gemini, all off the main thread
         Executors.newSingleThreadExecutor().execute(() -> {
             try {
                 List<String> notes = noteRepository.getNoteContents(subjectId).get();
                 String prompt = PromptBuilder.buildQAPrompt(notes, userText);
-
-                MutableLiveData<String> aiResponse = new MutableLiveData<>();
-                aiResponse.observeForever(response -> {
-                    if (response != null) {
-                        ChatMessage aiMsg = new ChatMessage();
-                        aiMsg.subjectId = subjectId;
-                        aiMsg.message = response;
-                        aiMsg.isUser = false;
-                        aiMsg.timestamp = System.currentTimeMillis();
-                        chatRepository.insertMessage(aiMsg);
-                        isLoading.postValue(false);
-                    }
-                });
-
-                chatRepository.sendToGemini(prompt, aiResponse);
-
+                callGeminiAndSaveResponse(prompt);
             } catch (Exception e) {
                 isLoading.postValue(false);
+                saveErrorMessage("Something went wrong: " + e.getMessage());
             }
         });
     }
@@ -81,26 +65,48 @@ public class ChatViewModel extends AndroidViewModel {
         Executors.newSingleThreadExecutor().execute(() -> {
             try {
                 List<String> notes = noteRepository.getNoteContents(subjectId).get();
+
+                if (notes == null || notes.isEmpty()) {
+                    isLoading.postValue(false);
+                    saveErrorMessage("Please add notes before generating a quiz.");
+                    return;
+                }
+
                 String prompt = PromptBuilder.buildQuizPrompt(notes);
-
-                MutableLiveData<String> aiResponse = new MutableLiveData<>();
-                aiResponse.observeForever(response -> {
-                    if (response != null) {
-                        ChatMessage aiMsg = new ChatMessage();
-                        aiMsg.subjectId = subjectId;
-                        aiMsg.message = response;
-                        aiMsg.isUser = false;
-                        aiMsg.timestamp = System.currentTimeMillis();
-                        chatRepository.insertMessage(aiMsg);
-                        isLoading.postValue(false);
-                    }
-                });
-
-                chatRepository.sendToGemini(prompt, aiResponse);
-
+                callGeminiAndSaveResponse(prompt);
             } catch (Exception e) {
                 isLoading.postValue(false);
+                saveErrorMessage("Something went wrong: " + e.getMessage());
             }
         });
+    }
+
+    private void callGeminiAndSaveResponse(String prompt) {
+        MutableLiveData<String> aiResponse = new MutableLiveData<>();
+
+        // observeForever must run on the main thread
+        new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> {
+            aiResponse.observeForever(response -> {
+                if (response != null) {
+                    saveAiMessage(response);
+                    isLoading.postValue(false);
+                }
+            });
+        });
+
+        chatRepository.sendToGemini(prompt, aiResponse);
+    }
+
+    private void saveAiMessage(String text) {
+        ChatMessage aiMsg = new ChatMessage();
+        aiMsg.subjectId = subjectId;
+        aiMsg.message = text;
+        aiMsg.isUser = false;
+        aiMsg.timestamp = System.currentTimeMillis();
+        chatRepository.insertMessage(aiMsg);
+    }
+
+    private void saveErrorMessage(String text) {
+        saveAiMessage(text);
     }
 }

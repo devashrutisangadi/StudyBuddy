@@ -23,7 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:padding="8dp" />
+        android:clipToPadding="false"
+        android:padding="10dp" />
 
     <TextView
         android:id="@+id/tvEmptyState"

@@ -5,18 +5,22 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybuddy.R;
 import com.example.studybuddy.data.model.Subject;
-//import com.example.studybuddy.ui.chat.ChatActivity;
+import com.example.studybuddy.ui.chat.ChatActivity;
+import com.example.studybuddy.ui.notes.AddNotesActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import androidx.recyclerview.widget.RecyclerView;
-import android.widget.TextView;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -32,6 +36,13 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        // Apply system bar padding so content doesn't touch status bar / nav bar
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
         rvSubjects = findViewById(R.id.rvSubjects);
         tvEmptyState = findViewById(R.id.tvEmptyState);
         fabAddSubject = findViewById(R.id.fabAddSubject);
@@ -41,10 +52,7 @@ public class HomeActivity extends AppCompatActivity {
         adapter = new SubjectAdapter(new SubjectAdapter.OnSubjectClickListener() {
             @Override
             public void onClick(Subject subject) {
-                Intent intent = new Intent(HomeActivity.this, com.example.studybuddy.ui.notes.AddNotesActivity.class);
-                intent.putExtra("subjectId", subject.id);
-                intent.putExtra("subjectName", subject.name);
-                startActivity(intent);
+                showSubjectOptionsDialog(subject);
             }
 
             @Override
@@ -73,6 +81,32 @@ public class HomeActivity extends AppCompatActivity {
         fabAddSubject.setOnClickListener(v -> showAddSubjectDialog());
     }
 
+    private void showSubjectOptionsDialog(Subject subject) {
+        String[] options = {"Open Chat", "Add Notes (Text)", "Upload PDF"};
+
+        new AlertDialog.Builder(this)
+                .setTitle(subject.name)
+                .setItems(options, (dialog, which) -> {
+                    switch (which) {
+                        case 0:
+                            Intent chatIntent = new Intent(HomeActivity.this, ChatActivity.class);
+                            chatIntent.putExtra("subjectId", subject.id);
+                            chatIntent.putExtra("subjectName", subject.name);
+                            startActivity(chatIntent);
+                            break;
+                        case 1:
+                        case 2:
+                            Intent notesIntent = new Intent(HomeActivity.this, AddNotesActivity.class);
+                            notesIntent.putExtra("subjectId", subject.id);
+                            notesIntent.putExtra("subjectName", subject.name);
+                            notesIntent.putExtra("openTab", which == 1 ? "text" : "pdf");
+                            startActivity(notesIntent);
+                            break;
+                    }
+                })
+                .show();
+    }
+
     private void showAddSubjectDialog() {
         EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -90,5 +124,4 @@ public class HomeActivity extends AppCompatActivity {
                 .setNegativeButton("Cancel", null)
                 .show();
     }
-
 }

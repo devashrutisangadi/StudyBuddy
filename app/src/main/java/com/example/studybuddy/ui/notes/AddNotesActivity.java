@@ -63,6 +63,11 @@ public class AddNotesActivity extends AppCompatActivity {
         layoutPdfInput = findViewById(R.id.layoutPdfInput);
         etNoteText = findViewById(R.id.etNoteText);
         tvSelectedFile = findViewById(R.id.tvSelectedFile);
+        String openTab = getIntent().getStringExtra("openTab");
+        if ("pdf".equals(openTab)) {
+            layoutTextInput.setVisibility(View.GONE);
+            layoutPdfInput.setVisibility(View.VISIBLE);
+        }
 
         btnTextTab.setOnClickListener(v -> {
             layoutTextInput.setVisibility(View.VISIBLE);
