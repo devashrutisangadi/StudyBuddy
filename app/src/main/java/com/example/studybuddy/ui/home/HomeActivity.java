@@ -41,10 +41,10 @@ public class HomeActivity extends AppCompatActivity {
         adapter = new SubjectAdapter(new SubjectAdapter.OnSubjectClickListener() {
             @Override
             public void onClick(Subject subject) {
-//                Intent intent = new Intent(HomeActivity.this, ChatActivity.class);
-//                intent.putExtra("subjectId", subject.id);
-//                intent.putExtra("subjectName", subject.name);
-//                startActivity(intent);
+                Intent intent = new Intent(HomeActivity.this, com.example.studybuddy.ui.notes.AddNotesActivity.class);
+                intent.putExtra("subjectId", subject.id);
+                intent.putExtra("subjectName", subject.name);
+                startActivity(intent);
             }
 
             @Override
