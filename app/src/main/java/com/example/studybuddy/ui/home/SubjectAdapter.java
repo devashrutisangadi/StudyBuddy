@@ -23,6 +23,16 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
         void onLongClick(Subject subject);
     }
 
+    // Rotating folder colors — cycles per card position
+    private static final int[] FOLDER_COLORS = {
+            0xFFFFD3D3, // coral
+            0xFFD4F0D0, // sage green
+            0xFFFFF3B8, // warm yellow
+            0xFFC9E4FF, // sky blue
+            0xFFE3D5F5, // lavender
+            0xFFFFE0C2  // peach
+    };
+
     private List<Subject> subjects = new ArrayList<>();
     private final OnSubjectClickListener listener;
 
@@ -52,6 +62,14 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
                 .format(subject.createdAt);
         holder.tvDate.setText("Created on " + dateStr);
 
+        int color = FOLDER_COLORS[position % FOLDER_COLORS.length];
+
+        if (holder.viewFolderShape.getBackground() instanceof FolderShapeDrawable) {
+            ((FolderShapeDrawable) holder.viewFolderShape.getBackground()).setFillColor(color);
+        } else {
+            holder.viewFolderShape.setBackground(new FolderShapeDrawable(color));
+        }
+
         holder.itemView.setOnClickListener(v -> listener.onClick(subject));
         holder.itemView.setOnLongClickListener(v -> {
             listener.onLongClick(subject);
@@ -66,11 +84,13 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
 
     static class SubjectViewHolder extends RecyclerView.ViewHolder {
         TextView tvName, tvDate;
+        View viewFolderShape;
 
         SubjectViewHolder(View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvSubjectName);
             tvDate = itemView.findViewById(R.id.tvSubjectDate);
+            viewFolderShape = itemView.findViewById(R.id.viewFolderShape);
         }
     }
 }

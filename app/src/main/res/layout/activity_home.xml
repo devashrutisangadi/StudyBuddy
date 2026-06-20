@@ -2,19 +2,61 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FAF8F5">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#FAF8F5"
+        app:elevation="0dp">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:title="AI Study Buddy"
-            app:titleTextColor="@android:color/white" />
+            android:background="#FAF8F5"
+            app:title="My subjects"
+            app:titleTextColor="#1C1B1F" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="14dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="14dp"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:padding="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🔍"
+                    android:textSize="16sp"
+                    android:layout_marginEnd="8dp" />
+
+                <EditText
+                    android:id="@+id/etSearchSubjects"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="Search a subject"
+                    android:textColorHint="#9A9A9A"
+                    android:textColor="#1C1B1F"
+                    android:textSize="15sp"
+                    android:inputType="text"
+                    android:maxLines="1" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -24,7 +66,9 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:clipToPadding="false"
-        android:padding="10dp" />
+        android:paddingHorizontal="10dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="80dp" />
 
     <TextView
         android:id="@+id/tvEmptyState"
@@ -43,6 +87,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="24dp"
         android:src="@android:drawable/ic_input_add"
-        app:tint="@android:color/white" />
+        app:tint="@android:color/white"
+        app:backgroundTint="#6750A4" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
