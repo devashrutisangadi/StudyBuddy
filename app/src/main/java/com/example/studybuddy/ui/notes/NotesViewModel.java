@@ -29,6 +29,10 @@ public class NotesViewModel extends AndroidViewModel {
         noteRepository.insertPdfNote(subjectId, pdfUri, fileName, context);
     }
 
+    public void deleteNote(Note note) {
+        noteRepository.deleteNote(note);
+    }
+
     public LiveData<List<Note>> getNotes(int subjectId) {
         return noteRepository.getNotes(subjectId);
     }

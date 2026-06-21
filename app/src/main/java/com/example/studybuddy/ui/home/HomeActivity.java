@@ -2,7 +2,9 @@ package com.example.studybuddy.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -30,6 +32,7 @@ public class HomeActivity extends AppCompatActivity {
     private RecyclerView rvSubjects;
     private TextView tvEmptyState;
     private FloatingActionButton fabAddSubject;
+    private EditText etSearchSubjects;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +49,7 @@ public class HomeActivity extends AppCompatActivity {
         rvSubjects = findViewById(R.id.rvSubjects);
         tvEmptyState = findViewById(R.id.tvEmptyState);
         fabAddSubject = findViewById(R.id.fabAddSubject);
+        etSearchSubjects = findViewById(R.id.etSearchSubjects);
 
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
@@ -71,14 +75,28 @@ public class HomeActivity extends AppCompatActivity {
 
         viewModel.getAllSubjects().observe(this, subjects -> {
             adapter.setSubjects(subjects);
-            if (subjects == null || subjects.isEmpty()) {
-                tvEmptyState.setVisibility(View.VISIBLE);
-            } else {
-                tvEmptyState.setVisibility(View.GONE);
-            }
+            updateEmptyState();
         });
 
         fabAddSubject.setOnClickListener(v -> showAddSubjectDialog());
+
+        etSearchSubjects.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.filter(s.toString());
+                updateEmptyState();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+    }
+
+    private void updateEmptyState() {
+        tvEmptyState.setVisibility(adapter.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     private void showSubjectOptionsDialog(Subject subject) {

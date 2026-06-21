@@ -5,13 +5,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,7 +31,7 @@ public class ChatActivity extends AppCompatActivity {
     private TextView tvEmptyChat;
     private ProgressBar progressBar;
     private EditText etMessage;
-    private Button btnSend;
+    private TextView btnSend;
 
     private int subjectId;
     private String subjectName;
@@ -38,14 +40,11 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content), (v, insets) -> {
-            androidx.core.graphics.Insets systemBars = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content), (v, insets) -> {
-            androidx.core.graphics.Insets systemBars = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars());
-            androidx.core.graphics.Insets ime = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.ime());
+
+        // System bar + IME-aware padding so the input bar stays above the keyboard
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            Insets ime = insets.getInsets(WindowInsetsCompat.Type.ime());
             int bottomPadding = Math.max(systemBars.bottom, ime.bottom);
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, bottomPadding);
             return insets;
@@ -85,6 +84,7 @@ public class ChatActivity extends AppCompatActivity {
         viewModel.isLoading.observe(this, loading -> {
             progressBar.setVisibility(loading ? View.VISIBLE : View.GONE);
             btnSend.setEnabled(!loading);
+            btnSend.setAlpha(loading ? 0.5f : 1f);
         });
 
         btnSend.setOnClickListener(v -> {

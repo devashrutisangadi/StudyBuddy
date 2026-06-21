@@ -15,7 +15,7 @@ public interface NoteDao {
     @Insert
     void insert(Note note);
 
-    @Query("SELECT * FROM notes WHERE subjectId = :subjectId")
+    @Query("SELECT * FROM notes WHERE subjectId = :subjectId ORDER BY createdAt DESC")
     LiveData<List<Note>> getNotesBySubject(int subjectId);
 
     @Query("SELECT content FROM notes WHERE subjectId = :subjectId")

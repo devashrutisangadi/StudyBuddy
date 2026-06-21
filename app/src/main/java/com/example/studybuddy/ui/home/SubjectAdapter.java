@@ -33,16 +33,44 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
             0xFFFFE0C2  // peach
     };
 
-    private List<Subject> subjects = new ArrayList<>();
+    // The complete, unfiltered list — this is the source of truth from the DB
+    private List<Subject> allSubjects = new ArrayList<>();
+
+    // The currently displayed list — either the full list, or a filtered subset
+    private List<Subject> visibleSubjects = new ArrayList<>();
+
     private final OnSubjectClickListener listener;
 
     public SubjectAdapter(OnSubjectClickListener listener) {
         this.listener = listener;
     }
 
+    /** Call this when fresh data arrives from LiveData. */
     public void setSubjects(List<Subject> subjects) {
-        this.subjects = subjects;
+        this.allSubjects = subjects != null ? subjects : new ArrayList<>();
+        this.visibleSubjects = new ArrayList<>(this.allSubjects);
         notifyDataSetChanged();
+    }
+
+    /** Call this whenever the search text changes. */
+    public void filter(String query) {
+        if (query == null || query.trim().isEmpty()) {
+            visibleSubjects = new ArrayList<>(allSubjects);
+        } else {
+            String lowerQuery = query.trim().toLowerCase(Locale.getDefault());
+            List<Subject> filtered = new ArrayList<>();
+            for (Subject s : allSubjects) {
+                if (s.name != null && s.name.toLowerCase(Locale.getDefault()).contains(lowerQuery)) {
+                    filtered.add(s);
+                }
+            }
+            visibleSubjects = filtered;
+        }
+        notifyDataSetChanged();
+    }
+
+    public boolean isEmpty() {
+        return visibleSubjects.isEmpty();
     }
 
     @NonNull
@@ -55,14 +83,18 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
 
     @Override
     public void onBindViewHolder(@NonNull SubjectViewHolder holder, int position) {
-        Subject subject = subjects.get(position);
+        Subject subject = visibleSubjects.get(position);
         holder.tvName.setText(subject.name);
 
         String dateStr = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
                 .format(subject.createdAt);
         holder.tvDate.setText("Created on " + dateStr);
 
-        int color = FOLDER_COLORS[position % FOLDER_COLORS.length];
+        // Color is based on position within the FULL list, so a subject's
+        // color stays consistent even while filtering
+        int colorIndex = allSubjects.indexOf(subject);
+        if (colorIndex == -1) colorIndex = position;
+        int color = FOLDER_COLORS[colorIndex % FOLDER_COLORS.length];
 
         if (holder.viewFolderShape.getBackground() instanceof FolderShapeDrawable) {
             ((FolderShapeDrawable) holder.viewFolderShape.getBackground()).setFillColor(color);
@@ -79,7 +111,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
 
     @Override
     public int getItemCount() {
-        return subjects.size();
+        return visibleSubjects.size();
     }
 
     static class SubjectViewHolder extends RecyclerView.ViewHolder {

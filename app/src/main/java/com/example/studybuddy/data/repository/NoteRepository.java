@@ -31,7 +31,9 @@ public class NoteRepository {
             Note note = new Note();
             note.subjectId = subjectId;
             note.content = content;
-            note.fileName = null;
+            // Use empty string, not null — Room's generated binder crashes
+            // on bindString(null) for non-nullable String columns.
+            note.fileName = "";
             note.createdAt = System.currentTimeMillis();
             noteDao.insert(note);
         });
@@ -42,11 +44,15 @@ public class NoteRepository {
             String extractedText = PdfExtractor.extractText(context, pdfUri);
             Note note = new Note();
             note.subjectId = subjectId;
-            note.content = extractedText;
-            note.fileName = fileName;
+            note.content = extractedText != null ? extractedText : "";
+            note.fileName = fileName != null ? fileName : "";
             note.createdAt = System.currentTimeMillis();
             noteDao.insert(note);
         });
+    }
+
+    public void deleteNote(Note note) {
+        executor.execute(() -> noteDao.delete(note));
     }
 
     public LiveData<List<Note>> getNotes(int subjectId) {
