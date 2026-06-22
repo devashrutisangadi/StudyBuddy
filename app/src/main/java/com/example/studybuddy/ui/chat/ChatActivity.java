@@ -102,6 +102,7 @@ public class ChatActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add("Add Notes");
         menu.add("Generate Quiz");
+        menu.add("Clear Chat");
         return true;
     }
 
@@ -116,6 +117,17 @@ public class ChatActivity extends AppCompatActivity {
         } else if (item.getTitle().equals("Generate Quiz")) {
             viewModel.generateQuiz();
             Toast.makeText(this, "Generating quiz from your notes...", Toast.LENGTH_SHORT).show();
+            return true;
+        } else if (item.getTitle().equals("Clear Chat")) {
+            new androidx.appcompat.app.AlertDialog.Builder(this)
+                    .setTitle("Clear chat history?")
+                    .setMessage("This will delete all messages in this chat. Your notes will not be affected.")
+                    .setPositiveButton("Clear", (dialog, which) -> {
+                        viewModel.clearChat();
+                        Toast.makeText(this, "Chat cleared", Toast.LENGTH_SHORT).show();
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
             return true;
         }
         return super.onOptionsItemSelected(item);

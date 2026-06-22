@@ -37,6 +37,10 @@ public class ChatViewModel extends AndroidViewModel {
         return chatRepository.getMessages(subjectId);
     }
 
+    public void clearChat() {
+        chatRepository.clearChat(subjectId);
+    }
+
     public void sendMessage(String userText) {
         ChatMessage userMsg = new ChatMessage();
         userMsg.subjectId = subjectId;
