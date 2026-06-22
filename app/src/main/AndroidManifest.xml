@@ -32,6 +32,8 @@
             android:name=".ui.chat.ChatActivity"
             android:windowSoftInputMode="adjustResize"
             android:exported="false" />
+        <activity android:name=".ui.quiz.QuizActivity"
+            android:exported="false"/>
 
     </application>
 

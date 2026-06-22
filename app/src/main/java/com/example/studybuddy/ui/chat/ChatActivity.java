@@ -87,6 +87,18 @@ public class ChatActivity extends AppCompatActivity {
             btnSend.setAlpha(loading ? 0.5f : 1f);
         });
 
+        viewModel.quizResult.observe(this, questions -> {
+            if (questions != null && !questions.isEmpty()) {
+                com.example.studybuddy.ui.quiz.QuizActivity.start(this, subjectName, questions);
+            }
+        });
+
+        viewModel.quizError.observe(this, error -> {
+            if (error != null) {
+                Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+            }
+        });
+
         btnSend.setOnClickListener(v -> {
             String text = etMessage.getText().toString().trim();
             if (text.isEmpty()) {

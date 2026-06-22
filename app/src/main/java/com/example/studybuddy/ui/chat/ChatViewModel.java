@@ -7,9 +7,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.studybuddy.data.model.ChatMessage;
+import com.example.studybuddy.data.model.QuizQuestion;
 import com.example.studybuddy.data.repository.ChatRepository;
 import com.example.studybuddy.data.repository.NoteRepository;
 import com.example.studybuddy.utils.PromptBuilder;
+import com.example.studybuddy.utils.QuizParser;
 
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -20,6 +22,12 @@ public class ChatViewModel extends AndroidViewModel {
     private final NoteRepository noteRepository;
 
     public final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
+
+    /** Emits a parsed quiz when generation succeeds. ChatActivity observes
+     *  this to launch QuizActivity. Emits null + a toast-worthy message via
+     *  quizError when generation or parsing fails. */
+    public final MutableLiveData<List<QuizQuestion>> quizResult = new MutableLiveData<>();
+    public final MutableLiveData<String> quizError = new MutableLiveData<>();
 
     private int subjectId;
 
@@ -63,6 +71,11 @@ public class ChatViewModel extends AndroidViewModel {
         });
     }
 
+    /**
+     * Generates a quiz and emits the parsed result via quizResult (success)
+     * or quizError (failure) \u2014 does NOT write anything to the chat history,
+     * since the quiz now lives in its own screen.
+     */
     public void generateQuiz() {
         isLoading.setValue(true);
 
@@ -72,15 +85,35 @@ public class ChatViewModel extends AndroidViewModel {
 
                 if (notes == null || notes.isEmpty()) {
                     isLoading.postValue(false);
-                    saveErrorMessage("Please add notes before generating a quiz.");
+                    quizError.postValue("Please add notes before generating a quiz.");
                     return;
                 }
 
                 String prompt = PromptBuilder.buildQuizPrompt(notes);
-                callGeminiAndSaveResponse(prompt);
+                MutableLiveData<String> aiResponse = new MutableLiveData<>();
+
+                new android.os.Handler(android.os.Looper.getMainLooper()).post(() ->
+                        aiResponse.observeForever(response -> {
+                            isLoading.postValue(false);
+                            if (response == null) {
+                                quizError.postValue("No response from the AI service.");
+                                return;
+                            }
+
+                            List<QuizQuestion> parsed = QuizParser.parse(response);
+                            if (parsed == null) {
+                                quizError.postValue("Couldn't generate a quiz right now. Please try again.");
+                            } else {
+                                quizResult.postValue(parsed);
+                            }
+                        })
+                );
+
+                chatRepository.sendToGemini(prompt, aiResponse);
+
             } catch (Exception e) {
                 isLoading.postValue(false);
-                saveErrorMessage("Something went wrong: " + e.getMessage());
+                quizError.postValue("Something went wrong: " + e.getMessage());
             }
         });
     }
@@ -88,7 +121,6 @@ public class ChatViewModel extends AndroidViewModel {
     private void callGeminiAndSaveResponse(String prompt) {
         MutableLiveData<String> aiResponse = new MutableLiveData<>();
 
-        // observeForever must run on the main thread
         new android.os.Handler(android.os.Looper.getMainLooper()).post(() -> {
             aiResponse.observeForever(response -> {
                 if (response != null) {
