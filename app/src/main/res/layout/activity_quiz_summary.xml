@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#FAF8F5"
+    android:padding="32dp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#F1EFE8"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="24dp">
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:background="@drawable/bg_quiz_trophy_circle"
+                android:padding="16dp"
+                android:src="@drawable/ic_quiz_trophy"
+                android:contentDescription="@null"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quiz complete"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#1C1B1F"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:id="@+id/summarySubjectLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="#7A7873"
+                android:layout_marginBottom="20dp"
+                tools:text="Cell Biology - Chapter 4" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#FAF8F5"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#E5E1D8"
+                app:strokeWidth="1dp"
+                android:layout_marginBottom="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:id="@+id/summaryScoreText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="32sp"
+                        android:textStyle="bold"
+                        android:textColor="#6750A4"
+                        tools:text="6 / 8" />
+
+                    <TextView
+                        android:id="@+id/summaryPercentText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="13sp"
+                        android:textColor="#7A7873"
+                        android:layout_marginTop="4dp"
+                        tools:text="75% correct" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:id="@+id/summaryStripContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="24dp" />
+
+            <TextView
+                android:id="@+id/btnRetakeQuiz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Retake quiz"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:gravity="center"
+                android:padding="14dp"
+                android:background="@drawable/bg_quiz_button_primary"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_marginBottom="10dp" />
+
+            <TextView
+                android:id="@+id/btnBackToChat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Back to chat"
+                android:textSize="14sp"
+                android:textColor="#1C1B1F"
+                android:gravity="center"
+                android:padding="14dp"
+                android:background="@drawable/bg_quiz_button_outline"
+                android:clickable="true"
+                android:focusable="true" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

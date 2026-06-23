@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/optionPillRoot"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="@drawable/bg_quiz_option_default"
+    android:clickable="true"
+    android:focusable="true"
+    android:paddingStart="18dp"
+    android:paddingEnd="18dp"
+    android:paddingTop="14dp"
+    android:paddingBottom="14dp">
+
+    <FrameLayout
+        android:id="@+id/optionLetterBadgeContainer"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:background="@drawable/bg_quiz_letter_badge_default">
+
+        <TextView
+            android:id="@+id/optionLetterBadge"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textColor="#534AB7"
+            android:fontFamily="sans-serif-medium"
+            tools:text="A" />
+
+        <ImageView
+            android:id="@+id/optionResultIcon"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:contentDescription="@null"
+            tools:src="@android:drawable/ic_menu_close_clear_cancel" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/optionText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="12dp"
+        android:textSize="14sp"
+        android:textColor="#1C1B1F"
+        tools:text="Cursor" />
+
+</LinearLayout>

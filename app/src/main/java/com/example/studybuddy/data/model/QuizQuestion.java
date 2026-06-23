@@ -1,13 +1,17 @@
 package com.example.studybuddy.data.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * A single parsed quiz question. Not a Room @Entity — this is purely an
  * in-memory model used while a quiz is being taken, built from Gemini's
  * JSON response. Quizzes are not persisted to the database.
+ *
+ * Implements Serializable so an ArrayList<QuizQuestion> can be passed
+ * directly as an Intent extra into QuizActivity.
  */
-public class QuizQuestion {
+public class QuizQuestion implements Serializable {
 
     public String question;
     public List<String> options; // exactly 4 entries
