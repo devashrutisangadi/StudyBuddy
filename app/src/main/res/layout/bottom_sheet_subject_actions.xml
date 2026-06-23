@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#FAF8F5"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="24dp">
+
+    <View
+        android:layout_width="36dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="18dp"
+        android:background="@drawable/bg_sheet_drag_handle" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="16dp">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/bg_sheet_folder_icon"
+            android:padding="8dp"
+            android:src="@drawable/ic_sheet_folder"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:id="@+id/sheetSubjectName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#1C1B1F"
+            tools:text="seuml" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rowOpenChat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:padding="10dp">
+
+        <ImageView
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:background="@drawable/bg_sheet_action_icon_circle"
+            android:padding="8dp"
+            android:src="@drawable/ic_sheet_chat"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:text="Open chat"
+            android:textSize="14sp"
+            android:textColor="#1C1B1F" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rowAddNotesText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:padding="10dp">
+
+        <ImageView
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:background="@drawable/bg_sheet_action_icon_circle"
+            android:padding="8dp"
+            android:src="@drawable/ic_sheet_notes"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:text="Add notes (text)"
+            android:textSize="14sp"
+            android:textColor="#1C1B1F" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rowUploadPdf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:padding="10dp">
+
+        <ImageView
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:background="@drawable/bg_sheet_action_icon_circle"
+            android:padding="8dp"
+            android:src="@drawable/ic_sheet_upload"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:text="Upload PDF"
+            android:textSize="14sp"
+            android:textColor="#1C1B1F" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#E5E1D8"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp" />
+
+    <LinearLayout
+        android:id="@+id/rowDeleteSubject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:padding="10dp">
+
+        <ImageView
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:background="@drawable/bg_sheet_delete_icon_circle"
+            android:padding="8dp"
+            android:src="@drawable/ic_sheet_delete"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:text="Delete subject"
+            android:textSize="14sp"
+            android:textColor="#A32D2D" />
+
+    </LinearLayout>
+
+</LinearLayout>

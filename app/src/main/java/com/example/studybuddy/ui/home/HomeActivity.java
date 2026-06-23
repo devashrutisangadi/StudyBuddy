@@ -24,7 +24,7 @@ import com.example.studybuddy.ui.chat.ChatActivity;
 import com.example.studybuddy.ui.notes.AddNotesActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements SubjectActionsBottomSheet.Listener {
 
     private HomeViewModel viewModel;
     private SubjectAdapter adapter;
@@ -56,17 +56,14 @@ public class HomeActivity extends AppCompatActivity {
         adapter = new SubjectAdapter(new SubjectAdapter.OnSubjectClickListener() {
             @Override
             public void onClick(Subject subject) {
-                showSubjectOptionsDialog(subject);
+                showSubjectActionsSheet(subject);
             }
 
             @Override
             public void onLongClick(Subject subject) {
-                new AlertDialog.Builder(HomeActivity.this)
-                        .setTitle("Delete subject?")
-                        .setMessage("This will delete \"" + subject.name + "\" and all its notes and chat history.")
-                        .setPositiveButton("Delete", (dialog, which) -> viewModel.deleteSubject(subject))
-                        .setNegativeButton("Cancel", null)
-                        .show();
+                // Long-press no longer does anything special — all actions,
+                // including delete, are reached via the tap-triggered
+                // bottom sheet now.
             }
         });
 
@@ -99,29 +96,47 @@ public class HomeActivity extends AppCompatActivity {
         tvEmptyState.setVisibility(adapter.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
-    private void showSubjectOptionsDialog(Subject subject) {
-        String[] options = {"Open Chat", "Add Notes (Text)", "Upload PDF"};
+    private void showSubjectActionsSheet(Subject subject) {
+        SubjectActionsBottomSheet sheet = SubjectActionsBottomSheet.newInstance(subject);
+        sheet.setListener(this);
+        sheet.show(getSupportFragmentManager(), "SubjectActionsBottomSheet");
+    }
 
+    // --- SubjectActionsBottomSheet.Listener ---
+
+    @Override
+    public void onOpenChat(Subject subject) {
+        Intent intent = new Intent(this, ChatActivity.class);
+        intent.putExtra("subjectId", subject.id);
+        intent.putExtra("subjectName", subject.name);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onAddNotesText(Subject subject) {
+        Intent intent = new Intent(this, AddNotesActivity.class);
+        intent.putExtra("subjectId", subject.id);
+        intent.putExtra("subjectName", subject.name);
+        intent.putExtra("openTab", "text");
+        startActivity(intent);
+    }
+
+    @Override
+    public void onUploadPdf(Subject subject) {
+        Intent intent = new Intent(this, AddNotesActivity.class);
+        intent.putExtra("subjectId", subject.id);
+        intent.putExtra("subjectName", subject.name);
+        intent.putExtra("openTab", "pdf");
+        startActivity(intent);
+    }
+
+    @Override
+    public void onDeleteRequested(Subject subject) {
         new AlertDialog.Builder(this)
-                .setTitle(subject.name)
-                .setItems(options, (dialog, which) -> {
-                    switch (which) {
-                        case 0:
-                            Intent chatIntent = new Intent(HomeActivity.this, ChatActivity.class);
-                            chatIntent.putExtra("subjectId", subject.id);
-                            chatIntent.putExtra("subjectName", subject.name);
-                            startActivity(chatIntent);
-                            break;
-                        case 1:
-                        case 2:
-                            Intent notesIntent = new Intent(HomeActivity.this, AddNotesActivity.class);
-                            notesIntent.putExtra("subjectId", subject.id);
-                            notesIntent.putExtra("subjectName", subject.name);
-                            notesIntent.putExtra("openTab", which == 1 ? "text" : "pdf");
-                            startActivity(notesIntent);
-                            break;
-                    }
-                })
+                .setTitle("Delete subject?")
+                .setMessage("This will delete \"" + subject.name + "\" and all its notes and chat history.")
+                .setPositiveButton("Delete", (dialog, which) -> viewModel.deleteSubject(subject))
+                .setNegativeButton("Cancel", null)
                 .show();
     }
 

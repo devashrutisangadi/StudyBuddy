@@ -1,11 +1,14 @@
 package com.example.studybuddy.ui.chat;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +35,7 @@ public class ChatActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private EditText etMessage;
     private TextView btnSend;
+    private ImageButton btnChatMenu;
 
     private int subjectId;
     private String subjectName;
@@ -62,6 +66,9 @@ public class ChatActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         etMessage = findViewById(R.id.etMessage);
         btnSend = findViewById(R.id.btnSend);
+        btnChatMenu = findViewById(R.id.btnChatMenu);
+
+        btnChatMenu.setOnClickListener(this::showChatMenu);
 
         viewModel = new ViewModelProvider(this).get(ChatViewModel.class);
         viewModel.init(subjectId);
@@ -110,27 +117,38 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add("Add Notes");
-        menu.add("Generate Quiz");
-        menu.add("Clear Chat");
-        return true;
-    }
+    /**
+     * Shows the custom cream/purple dropdown menu anchored under the
+     * toolbar's overflow button, replacing the old system options menu.
+     */
+    private void showChatMenu(View anchor) {
+        View menuView = LayoutInflater.from(this).inflate(R.layout.dropdown_chat_menu, null);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getTitle().equals("Add Notes")) {
+        PopupWindow popupWindow = new PopupWindow(
+                menuView,
+                android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+                android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+                true
+        );
+        popupWindow.setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        popupWindow.setElevation(8f);
+
+        menuView.findViewById(R.id.menuRowAddNotes).setOnClickListener(v -> {
+            popupWindow.dismiss();
             Intent intent = new Intent(this, AddNotesActivity.class);
             intent.putExtra("subjectId", subjectId);
             intent.putExtra("subjectName", subjectName);
             startActivity(intent);
-            return true;
-        } else if (item.getTitle().equals("Generate Quiz")) {
+        });
+
+        menuView.findViewById(R.id.menuRowGenerateQuiz).setOnClickListener(v -> {
+            popupWindow.dismiss();
             viewModel.generateQuiz();
             Toast.makeText(this, "Generating quiz from your notes...", Toast.LENGTH_SHORT).show();
-            return true;
-        } else if (item.getTitle().equals("Clear Chat")) {
+        });
+
+        menuView.findViewById(R.id.menuRowClearChat).setOnClickListener(v -> {
+            popupWindow.dismiss();
             new androidx.appcompat.app.AlertDialog.Builder(this)
                     .setTitle("Clear chat history?")
                     .setMessage("This will delete all messages in this chat. Your notes will not be affected.")
@@ -140,8 +158,11 @@ public class ChatActivity extends AppCompatActivity {
                     })
                     .setNegativeButton("Cancel", null)
                     .show();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        });
+
+        // Anchor below-right of the button, nudged left so the menu's right
+        // edge aligns with the button's right edge instead of overflowing
+        // off the right side of the screen.
+        popupWindow.showAsDropDown(anchor, -160, 8, Gravity.END);
     }
 }

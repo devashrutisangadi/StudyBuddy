@@ -12,7 +12,18 @@
         android:layout_height="?attr/actionBarSize"
         android:background="#FAF8F5"
         app:title="Chat"
-        app:titleTextColor="#1C1B1F" />
+        app:titleTextColor="#1C1B1F">
+
+        <ImageButton
+            android:id="@+id/btnChatMenu"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end|center_vertical"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_overflow_vertical"
+            android:contentDescription="More options" />
+
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <FrameLayout
         android:layout_width="match_parent"
