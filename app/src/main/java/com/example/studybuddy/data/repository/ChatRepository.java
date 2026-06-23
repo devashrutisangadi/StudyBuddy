@@ -54,22 +54,37 @@ public class ChatRepository {
 
     private void attemptSendToGemini(String prompt, MutableLiveData<String> responseLive, int attempt, boolean usingFallbackModel) {
         GeminiRequest request = new GeminiRequest(prompt);
-        String model = usingFallbackModel ? "gemini-2.0-flash" : "gemini-2.5-flash";
+        // gemini-2.0-flash was deprecated and shut down June 1, 2026 -- using
+        // gemini-2.5-flash-lite as the fallback instead, since it's a separate
+        // live model with its own quota pool from the primary 2.5-flash.
+        String model = usingFallbackModel ? "gemini-2.5-flash-lite" : "gemini-2.5-flash";
 
         apiService.generateContent(model, BuildConfig.GEMINI_API_KEY, request)
                 .enqueue(new Callback<GeminiResponse>() {
                     @Override
                     public void onResponse(Call<GeminiResponse> call, Response<GeminiResponse> response) {
+                        int code = response.code();
+
                         if (response.isSuccessful() && response.body() != null) {
                             responseLive.postValue(response.body().getResponseText());
-                        } else if (isRetryableHttpError(response.code()) && attempt < MAX_RETRIES) {
+                        } else if (isQuotaError(code) && !usingFallbackModel) {
+                            // 429 means OUR quota is exhausted for this specific
+                            // model -- retrying the same model is pointless, but
+                            // a different model has a separate quota pool, so
+                            // it's worth trying once before giving up.
+                            attemptSendToGemini(prompt, responseLive, 0, true);
+                        } else if (isQuotaError(code) && usingFallbackModel) {
+                            // Both models are rate-limited -- no point retrying
+                            // either one right now.
+                            responseLive.postValue("You've hit the AI service's rate limit. Please wait a bit before trying again.");
+                        } else if (isTransientServerError(code) && attempt < MAX_RETRIES) {
                             retryAfterDelay(prompt, responseLive, attempt, usingFallbackModel);
-                        } else if (isRetryableHttpError(response.code()) && !usingFallbackModel) {
+                        } else if (isTransientServerError(code) && !usingFallbackModel) {
                             // Primary model exhausted retries — try a fallback model once
                             attemptSendToGemini(prompt, responseLive, 0, true);
                         } else {
                             responseLive.postValue("The AI service returned an error (code "
-                                    + response.code() + "). Please try again in a moment.");
+                                    + code + "). Please try again in a moment.");
                         }
                     }
 
@@ -100,8 +115,22 @@ public class ChatRepository {
         });
     }
 
-    private boolean isRetryableHttpError(int code) {
-        // 503 Service Unavailable, 429 Too Many Requests, 500/502/504 — all worth retrying
-        return code == 503 || code == 429 || code == 500 || code == 502 || code == 504;
+    /**
+     * 429 Too Many Requests -- this means YOUR quota is exhausted, not a
+     * transient server issue. Retrying the same model immediately just
+     * burns more of an already-exhausted quota, so this is handled
+     * separately from transient server errors (no same-model retry).
+     */
+    private boolean isQuotaError(int code) {
+        return code == 429;
+    }
+
+    /**
+     * 503 Service Unavailable, 500/502/504 -- genuine transient server-side
+     * issues worth retrying with backoff, since the problem is on Google's
+     * end, not your quota.
+     */
+    private boolean isTransientServerError(int code) {
+        return code == 503 || code == 500 || code == 502 || code == 504;
     }
 }

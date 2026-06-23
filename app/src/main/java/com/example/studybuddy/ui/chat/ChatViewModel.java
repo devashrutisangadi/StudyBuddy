@@ -95,6 +95,7 @@ public class ChatViewModel extends AndroidViewModel {
                 new android.os.Handler(android.os.Looper.getMainLooper()).post(() ->
                         aiResponse.observeForever(response -> {
                             isLoading.postValue(false);
+                            android.util.Log.d("QuizDebug", "Raw Gemini response: [" + response + "]");
                             if (response == null) {
                                 quizError.postValue("No response from the AI service.");
                                 return;
