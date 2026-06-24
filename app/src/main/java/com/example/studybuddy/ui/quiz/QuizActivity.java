@@ -14,10 +14,13 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.example.studybuddy.R;
 import com.example.studybuddy.data.model.QuizQuestion;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -56,7 +59,7 @@ public class QuizActivity extends AppCompatActivity {
     private boolean isAnswerLocked = false;
     private boolean isQuizComplete = false;
 
-    private Toolbar quizToolbar;
+    private MaterialToolbar quizToolbar;
     private TextView questionCounterLabel;
     private TextView scoreLabel;
     private ProgressBar quizProgressBar;
@@ -70,6 +73,14 @@ public class QuizActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
+
+        // System bar padding so the toolbar doesn't sit flush under the
+        // status bar (matches the pattern used in HomeActivity/ChatActivity).
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         subjectName = getIntent().getStringExtra(EXTRA_SUBJECT_NAME);
         String questionsJson = getIntent().getStringExtra(EXTRA_QUESTIONS_JSON);
@@ -92,7 +103,7 @@ public class QuizActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        quizToolbar.setNavigationOnClickListener(v -> handleBackPressed());
+        quizToolbar.setNavigationOnClickListener(v -> onBackPressed());
 
         if (questions == null || questions.isEmpty()) {
             // Defensive fallback -- shouldn't happen since generateQuiz()
@@ -108,10 +119,6 @@ public class QuizActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        handleBackPressed();
-    }
-
-    private void handleBackPressed() {
         if (isQuizComplete) {
             super.onBackPressed();
             return;

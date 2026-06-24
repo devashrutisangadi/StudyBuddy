@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,17 +23,26 @@ import com.example.studybuddy.R;
 import com.example.studybuddy.data.model.Subject;
 import com.example.studybuddy.ui.chat.ChatActivity;
 import com.example.studybuddy.ui.notes.AddNotesActivity;
+import com.example.studybuddy.ui.quiz.QuizActivity;
+import com.example.studybuddy.utils.QuizGenerator;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class HomeActivity extends AppCompatActivity implements SubjectActionsBottomSheet.Listener {
 
     private HomeViewModel viewModel;
     private SubjectAdapter adapter;
+    private QuizGenerator quizGenerator;
 
     private RecyclerView rvSubjects;
     private TextView tvEmptyState;
     private FloatingActionButton fabAddSubject;
     private EditText etSearchSubjects;
+
+    // Tracks which subject a quiz is currently being generated for, since
+    // quizGenerator.generateQuiz() takes a subjectId but the result/error
+    // LiveData callbacks need the subject's NAME too (for QuizActivity.start
+    // and for showing which subject failed).
+    private Subject pendingQuizSubject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +62,25 @@ public class HomeActivity extends AppCompatActivity implements SubjectActionsBot
         etSearchSubjects = findViewById(R.id.etSearchSubjects);
 
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+
+        quizGenerator = new QuizGenerator(getApplication());
+        quizGenerator.isLoading.observe(this, loading -> {
+            // No dedicated loading UI on this screen yet — a Toast on start
+            // is shown from onGenerateQuiz() below. Hook a ProgressBar here
+            // later if a more visible loading state is wanted.
+        });
+        quizGenerator.quizResult.observe(this, questions -> {
+            if (questions != null && !questions.isEmpty() && pendingQuizSubject != null) {
+                QuizActivity.start(this, pendingQuizSubject.name, questions);
+                pendingQuizSubject = null;
+            }
+        });
+        quizGenerator.quizError.observe(this, error -> {
+            if (error != null) {
+                Toast.makeText(this, error, Toast.LENGTH_LONG).show();
+                pendingQuizSubject = null;
+            }
+        });
 
         adapter = new SubjectAdapter(new SubjectAdapter.OnSubjectClickListener() {
             @Override
@@ -110,6 +139,13 @@ public class HomeActivity extends AppCompatActivity implements SubjectActionsBot
         intent.putExtra("subjectId", subject.id);
         intent.putExtra("subjectName", subject.name);
         startActivity(intent);
+    }
+
+    @Override
+    public void onGenerateQuiz(Subject subject) {
+        pendingQuizSubject = subject;
+        quizGenerator.generateQuiz(subject.id);
+        Toast.makeText(this, "Generating quiz from your notes...", Toast.LENGTH_SHORT).show();
     }
 
     @Override

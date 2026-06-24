@@ -8,6 +8,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.example.studybuddy.R;
 import com.example.studybuddy.data.model.QuizQuestion;
@@ -44,6 +47,14 @@ public class QuizSummaryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_summary);
+
+        // System bar padding for consistency with the rest of the app
+        // (HomeActivity/ChatActivity apply the same pattern).
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         subjectName = getIntent().getStringExtra(EXTRA_SUBJECT_NAME);
         int score = getIntent().getIntExtra(EXTRA_SCORE, 0);

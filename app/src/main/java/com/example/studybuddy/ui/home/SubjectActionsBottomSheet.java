@@ -15,9 +15,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 /**
  * Replaces the old AlertDialog-based subject options popup. Shows Open
- * Chat / Add Notes (Text) / Upload PDF / Delete Subject as a single
- * cream-and-purple bottom sheet, matching the rest of the app's design
- * system instead of a default system dialog.
+ * Chat / Generate Quiz / Add Notes (Text) / Upload PDF / Delete Subject as
+ * a single cream-and-purple bottom sheet, matching the rest of the app's
+ * design system instead of a default system dialog.
  *
  * Delete subject does NOT delete immediately — it dismisses this sheet
  * and hands control back to the listener, which shows the existing
@@ -30,6 +30,7 @@ public class SubjectActionsBottomSheet extends BottomSheetDialogFragment {
 
     public interface Listener {
         void onOpenChat(Subject subject);
+        void onGenerateQuiz(Subject subject);
         void onAddNotesText(Subject subject);
         void onUploadPdf(Subject subject);
         void onDeleteRequested(Subject subject);
@@ -71,6 +72,13 @@ public class SubjectActionsBottomSheet extends BottomSheetDialogFragment {
             dismiss();
             if (listener != null && subject != null) {
                 listener.onOpenChat(subject);
+            }
+        });
+
+        view.findViewById(R.id.rowGenerateQuiz).setOnClickListener(v -> {
+            dismiss();
+            if (listener != null && subject != null) {
+                listener.onGenerateQuiz(subject);
             }
         });
 

@@ -11,7 +11,7 @@ import com.example.studybuddy.data.model.QuizQuestion;
 import com.example.studybuddy.data.repository.ChatRepository;
 import com.example.studybuddy.data.repository.NoteRepository;
 import com.example.studybuddy.utils.PromptBuilder;
-import com.example.studybuddy.utils.QuizParser;
+import com.example.studybuddy.utils.QuizGenerator;
 
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -20,14 +20,16 @@ public class ChatViewModel extends AndroidViewModel {
 
     private final ChatRepository chatRepository;
     private final NoteRepository noteRepository;
+    private final QuizGenerator quizGenerator;
 
     public final MutableLiveData<Boolean> isLoading = new MutableLiveData<>(false);
 
     /** Emits a parsed quiz when generation succeeds. ChatActivity observes
      *  this to launch QuizActivity. Emits null + a toast-worthy message via
-     *  quizError when generation or parsing fails. */
-    public final MutableLiveData<List<QuizQuestion>> quizResult = new MutableLiveData<>();
-    public final MutableLiveData<String> quizError = new MutableLiveData<>();
+     *  quizError when generation or parsing fails. Backed by the shared
+     *  QuizGenerator so HomeActivity can trigger the same logic independently. */
+    public final MutableLiveData<List<QuizQuestion>> quizResult;
+    public final MutableLiveData<String> quizError;
 
     private int subjectId;
 
@@ -35,6 +37,9 @@ public class ChatViewModel extends AndroidViewModel {
         super(application);
         chatRepository = new ChatRepository(application);
         noteRepository = new NoteRepository(application);
+        quizGenerator = new QuizGenerator(application);
+        quizResult = quizGenerator.quizResult;
+        quizError = quizGenerator.quizError;
     }
 
     public void init(int subjectId) {
@@ -72,51 +77,13 @@ public class ChatViewModel extends AndroidViewModel {
     }
 
     /**
-     * Generates a quiz and emits the parsed result via quizResult (success)
-     * or quizError (failure) \u2014 does NOT write anything to the chat history,
-     * since the quiz now lives in its own screen.
+     * Generates a quiz via the shared QuizGenerator and emits the parsed
+     * result through quizResult (success) or quizError (failure) — does NOT
+     * write anything to the chat history, since the quiz lives in its own
+     * screen.
      */
     public void generateQuiz() {
-        isLoading.setValue(true);
-
-        Executors.newSingleThreadExecutor().execute(() -> {
-            try {
-                List<String> notes = noteRepository.getNoteContents(subjectId).get();
-
-                if (notes == null || notes.isEmpty()) {
-                    isLoading.postValue(false);
-                    quizError.postValue("Please add notes before generating a quiz.");
-                    return;
-                }
-
-                String prompt = PromptBuilder.buildQuizPrompt(notes);
-                MutableLiveData<String> aiResponse = new MutableLiveData<>();
-
-                new android.os.Handler(android.os.Looper.getMainLooper()).post(() ->
-                        aiResponse.observeForever(response -> {
-                            isLoading.postValue(false);
-                            android.util.Log.d("QuizDebug", "Raw Gemini response: [" + response + "]");
-                            if (response == null) {
-                                quizError.postValue("No response from the AI service.");
-                                return;
-                            }
-
-                            List<QuizQuestion> parsed = QuizParser.parse(response);
-                            if (parsed == null) {
-                                quizError.postValue("Couldn't generate a quiz right now. Please try again.");
-                            } else {
-                                quizResult.postValue(parsed);
-                            }
-                        })
-                );
-
-                chatRepository.sendToGemini(prompt, aiResponse);
-
-            } catch (Exception e) {
-                isLoading.postValue(false);
-                quizError.postValue("Something went wrong: " + e.getMessage());
-            }
-        });
+        quizGenerator.generateQuiz(subjectId);
     }
 
     private void callGeminiAndSaveResponse(String prompt) {
