@@ -3,14 +3,12 @@ package com.example.studybuddy.ui.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -25,6 +23,7 @@ import com.example.studybuddy.ui.chat.ChatActivity;
 import com.example.studybuddy.ui.notes.AddNotesActivity;
 import com.example.studybuddy.ui.quiz.QuizActivity;
 import com.example.studybuddy.utils.QuizGenerator;
+import com.example.studybuddy.utils.StyledDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class HomeActivity extends AppCompatActivity implements SubjectActionsBottomSheet.Listener {
@@ -168,29 +167,18 @@ public class HomeActivity extends AppCompatActivity implements SubjectActionsBot
 
     @Override
     public void onDeleteRequested(Subject subject) {
-        new AlertDialog.Builder(this)
-                .setTitle("Delete subject?")
-                .setMessage("This will delete \"" + subject.name + "\" and all its notes and chat history.")
-                .setPositiveButton("Delete", (dialog, which) -> viewModel.deleteSubject(subject))
-                .setNegativeButton("Cancel", null)
-                .show();
+        StyledDialog.confirmDanger(this, R.drawable.ic_sheet_delete,
+                "Delete subject?",
+                "This will delete \"" + subject.name + "\" and all its notes and chat history. This can't be undone.",
+                "Delete", "Cancel",
+                () -> viewModel.deleteSubject(subject));
     }
 
     private void showAddSubjectDialog() {
-        EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        input.setHint("e.g. Biology");
-
-        new AlertDialog.Builder(this)
-                .setTitle("New Subject")
-                .setView(input)
-                .setPositiveButton("Add", (dialog, which) -> {
-                    String name = input.getText().toString().trim();
-                    if (!name.isEmpty()) {
-                        viewModel.addSubject(name);
-                    }
-                })
-                .setNegativeButton("Cancel", null)
-                .show();
+        StyledDialog.input(this, "New subject", "e.g. Biology", "Add", "Cancel", name -> {
+            if (!name.isEmpty()) {
+                viewModel.addSubject(name);
+            }
+        });
     }
 }

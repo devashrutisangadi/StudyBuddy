@@ -149,15 +149,14 @@ public class ChatActivity extends AppCompatActivity {
 
         menuView.findViewById(R.id.menuRowClearChat).setOnClickListener(v -> {
             popupWindow.dismiss();
-            new androidx.appcompat.app.AlertDialog.Builder(this)
-                    .setTitle("Clear chat history?")
-                    .setMessage("This will delete all messages in this chat. Your notes will not be affected.")
-                    .setPositiveButton("Clear", (dialog, which) -> {
+            com.example.studybuddy.utils.StyledDialog.confirmDanger(this, R.drawable.ic_dropdown_clear,
+                    "Clear chat history?",
+                    "This will delete all messages in this chat. Your notes will not be affected.",
+                    "Clear", "Cancel",
+                    () -> {
                         viewModel.clearChat();
                         Toast.makeText(this, "Chat cleared", Toast.LENGTH_SHORT).show();
-                    })
-                    .setNegativeButton("Cancel", null)
-                    .show();
+                    });
         });
 
         // Anchor below-right of the button, nudged left so the menu's right

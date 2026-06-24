@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/bg_styled_dialog_card"
+    android:padding="24dp">
+
+    <ImageView
+        android:id="@+id/dialogIcon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:padding="12dp"
+        android:layout_marginBottom="14dp"
+        android:contentDescription="@null"
+        tools:src="@drawable/ic_sheet_delete"
+        tools:background="@drawable/bg_dialog_icon_circle_danger" />
+
+    <TextView
+        android:id="@+id/dialogTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:textColor="#1C1B1F"
+        android:layout_marginBottom="8dp"
+        tools:text="Delete subject?" />
+
+    <TextView
+        android:id="@+id/dialogMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="#6B6A66"
+        android:lineSpacingMultiplier="1.3"
+        android:layout_marginBottom="20dp"
+        tools:text="This will delete this subject and all its notes and chat history. This can't be undone." />
+
+    <EditText
+        android:id="@+id/dialogInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_dialog_input"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
+        android:textSize="14sp"
+        android:textColor="#1C1B1F"
+        android:textColorHint="#9A9A9A"
+        android:inputType="text"
+        android:maxLines="1"
+        android:layout_marginBottom="20dp"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/dialogButtonsStacked"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/dialogPrimaryButtonStacked"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="13dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/bg_dialog_button_primary_danger"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginBottom="8dp"
+            tools:text="Delete" />
+
+        <TextView
+            android:id="@+id/dialogSecondaryButtonStacked"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="13dp"
+            android:textSize="14sp"
+            android:textColor="#1C1B1F"
+            android:background="@drawable/bg_dialog_button_outline"
+            android:clickable="true"
+            android:focusable="true"
+            tools:text="Cancel" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/dialogButtonsSideBySide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/dialogSecondaryButtonSide"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="13dp"
+            android:textSize="14sp"
+            android:textColor="#1C1B1F"
+            android:background="@drawable/bg_dialog_button_outline"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginEnd="8dp"
+            tools:text="Cancel" />
+
+        <TextView
+            android:id="@+id/dialogPrimaryButtonSide"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="13dp"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/bg_dialog_button_primary"
+            android:clickable="true"
+            android:focusable="true"
+            tools:text="Add" />
+
+    </LinearLayout>
+
+</LinearLayout>
