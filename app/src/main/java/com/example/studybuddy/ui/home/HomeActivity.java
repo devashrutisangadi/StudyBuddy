@@ -166,6 +166,16 @@ public class HomeActivity extends AppCompatActivity implements SubjectActionsBot
     }
 
     @Override
+    public void onRenameRequested(Subject subject) {
+        StyledDialog.input(this, R.drawable.ic_dialog_rename, "Rename subject",
+                "e.g. Biology", subject.name, "Save", "Cancel", newName -> {
+                    if (!newName.isEmpty() && !newName.equals(subject.name)) {
+                        viewModel.renameSubject(subject, newName);
+                    }
+                });
+    }
+
+    @Override
     public void onDeleteRequested(Subject subject) {
         StyledDialog.confirmDanger(this, R.drawable.ic_sheet_delete,
                 "Delete subject?",

@@ -104,17 +104,29 @@ public class StyledDialog {
     }
 
     /**
-     * Input-mode dialog with a neutral purple icon circle, an EditText,
-     * and two side-by-side buttons (Cancel, Add).
+     * Input-mode dialog with the default folder-plus icon, an EditText,
+     * and two side-by-side buttons (Cancel, Add). Kept for existing call
+     * sites (e.g. New subject) that don't need a custom icon or prefill.
      */
     public static void input(Context context, String title, String hint,
+                             String primaryLabel, String secondaryLabel, OnInputConfirm onConfirm) {
+        input(context, R.drawable.ic_dialog_folder_plus, title, hint, null,
+                primaryLabel, secondaryLabel, onConfirm);
+    }
+
+    /**
+     * Input-mode dialog with a custom icon and an optional prefilled value
+     * (e.g. the subject's current name, for renaming). Pass null for
+     * prefillValue to leave the field empty.
+     */
+    public static void input(Context context, int iconRes, String title, String hint, String prefillValue,
                              String primaryLabel, String secondaryLabel, OnInputConfirm onConfirm) {
         Dialog dialog = createBaseDialog(context);
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_styled, null);
         dialog.setContentView(view);
 
         ImageView icon = view.findViewById(R.id.dialogIcon);
-        icon.setImageResource(R.drawable.ic_dialog_folder_plus);
+        icon.setImageResource(iconRes);
         icon.setBackgroundResource(R.drawable.bg_dialog_icon_circle_neutral);
 
         TextView titleView = view.findViewById(R.id.dialogTitle);
@@ -123,6 +135,10 @@ public class StyledDialog {
         EditText input = view.findViewById(R.id.dialogInput);
         input.setHint(hint);
         input.setVisibility(View.VISIBLE);
+        if (prefillValue != null) {
+            input.setText(prefillValue);
+            input.setSelection(prefillValue.length());
+        }
 
         LinearLayout sideButtons = view.findViewById(R.id.dialogButtonsSideBySide);
         sideButtons.setVisibility(View.VISIBLE);

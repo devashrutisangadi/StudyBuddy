@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.studybuddy.data.model.Subject;
 import java.util.List;
@@ -14,6 +15,9 @@ public interface SubjectDao {
 
     @Insert
     void insert(Subject subject);
+
+    @Update
+    void update(Subject subject);
 
     @Query("SELECT * FROM subjects ORDER BY createdAt DESC")
     LiveData<List<Subject>> getAllSubjects();

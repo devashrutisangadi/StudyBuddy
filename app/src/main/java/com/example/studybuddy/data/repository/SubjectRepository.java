@@ -26,6 +26,10 @@ public class SubjectRepository {
         executor.execute(() -> subjectDao.insert(subject));
     }
 
+    public void updateSubject(Subject subject) {
+        executor.execute(() -> subjectDao.update(subject));
+    }
+
     public LiveData<List<Subject>> getAllSubjects() {
         return subjectDao.getAllSubjects();
     }

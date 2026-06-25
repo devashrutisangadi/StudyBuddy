@@ -30,6 +30,16 @@ public class HomeViewModel extends AndroidViewModel {
         subjectRepository.insertSubject(subject);
     }
 
+    /**
+     * Renames an existing subject in place. Keeps the same id/createdAt
+     * (and color in SubjectAdapter, which is based on list position, not
+     * identity) — only the name field changes.
+     */
+    public void renameSubject(Subject subject, String newName) {
+        subject.name = newName;
+        subjectRepository.updateSubject(subject);
+    }
+
     public void deleteSubject(Subject subject) {
         subjectRepository.deleteSubject(subject);
     }
