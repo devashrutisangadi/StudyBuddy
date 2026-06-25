@@ -51,6 +51,15 @@ public class NoteRepository {
         });
     }
 
+    /**
+     * Updates an existing note's content (used by NoteViewerActivity when
+     * editing a text note). Only ever called for text notes — PDF-derived
+     * notes are view-only in the viewer screen.
+     */
+    public void updateNote(Note note) {
+        executor.execute(() -> noteDao.update(note));
+    }
+
     public void deleteNote(Note note) {
         executor.execute(() -> noteDao.delete(note));
     }

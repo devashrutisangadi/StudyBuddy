@@ -22,11 +22,17 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
         void onDelete(Note note);
     }
 
-    private List<Note> notes = new ArrayList<>();
-    private final OnNoteDeleteListener listener;
+    public interface OnNoteClickListener {
+        void onClick(Note note);
+    }
 
-    public NoteAdapter(OnNoteDeleteListener listener) {
-        this.listener = listener;
+    private List<Note> notes = new ArrayList<>();
+    private final OnNoteDeleteListener deleteListener;
+    private final OnNoteClickListener clickListener;
+
+    public NoteAdapter(OnNoteDeleteListener deleteListener, OnNoteClickListener clickListener) {
+        this.deleteListener = deleteListener;
+        this.clickListener = clickListener;
     }
 
     public void setNotes(List<Note> notes) {
@@ -68,7 +74,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
                 .format(note.createdAt);
         holder.tvDate.setText("Added " + dateStr);
 
-        holder.tvDelete.setOnClickListener(v -> listener.onDelete(note));
+        holder.itemView.setOnClickListener(v -> clickListener.onClick(note));
+        holder.tvDelete.setOnClickListener(v -> deleteListener.onDelete(note));
     }
 
     @Override

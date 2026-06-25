@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.studybuddy.data.model.Note;
 import java.util.List;
@@ -14,6 +15,9 @@ public interface NoteDao {
 
     @Insert
     void insert(Note note);
+
+    @Update
+    void update(Note note);
 
     @Query("SELECT * FROM notes WHERE subjectId = :subjectId ORDER BY createdAt DESC")
     LiveData<List<Note>> getNotesBySubject(int subjectId);

@@ -101,14 +101,17 @@ public class AddNotesActivity extends AppCompatActivity {
 
         btnUploadPdf.setEnabled(false);
 
-        noteAdapter = new NoteAdapter(note -> {
-            new AlertDialog.Builder(this)
-                    .setTitle("Delete this note?")
-                    .setMessage("This cannot be undone.")
-                    .setPositiveButton("Delete", (dialog, which) -> viewModel.deleteNote(note))
-                    .setNegativeButton("Cancel", null)
-                    .show();
-        });
+        noteAdapter = new NoteAdapter(
+                note -> {
+                    new AlertDialog.Builder(this)
+                            .setTitle("Delete this note?")
+                            .setMessage("This cannot be undone.")
+                            .setPositiveButton("Delete", (dialog, which) -> viewModel.deleteNote(note))
+                            .setNegativeButton("Cancel", null)
+                            .show();
+                },
+                note -> NoteViewerActivity.start(this, note)
+        );
         rvNotesList.setLayoutManager(new LinearLayoutManager(this));
         rvNotesList.setAdapter(noteAdapter);
 

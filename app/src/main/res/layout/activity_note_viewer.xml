@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FAF8F5">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/noteViewerToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#FAF8F5"
+        app:titleTextColor="#1C1B1F"
+        app:title="Note" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="12dp">
+
+        <TextView
+            android:id="@+id/noteViewerLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="13sp"
+            android:textColor="#7A7873"
+            tools:text="Added Jun 25, 2026 at 10:30 am" />
+
+        <TextView
+            android:id="@+id/noteViewerTypeBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_note_type_badge"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="4dp"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:textColor="#534AB7"
+            tools:text="PDF" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="20dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#E5E1D8"
+                app:strokeWidth="1dp">
+
+                <EditText
+                    android:id="@+id/noteContentField"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:padding="18dp"
+                    android:gravity="top|start"
+                    android:textSize="15sp"
+                    android:textColor="#1C1B1F"
+                    android:lineSpacingMultiplier="1.4"
+                    android:inputType="textMultiLine"
+                    android:scrollbars="vertical"
+                    tools:text="Pasted or extracted note content goes here..." />
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/btnSaveNote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="Save changes"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:padding="14dp"
+        android:background="@drawable/bg_quiz_button_primary"
+        android:clickable="true"
+        android:focusable="true" />
+
+</LinearLayout>
