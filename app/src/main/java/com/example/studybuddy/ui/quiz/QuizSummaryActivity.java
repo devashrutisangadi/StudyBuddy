@@ -17,7 +17,18 @@ import com.example.studybuddy.data.model.QuizQuestion;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import nl.dionsegijn.konfetti.core.Angle;
+import nl.dionsegijn.konfetti.core.Party;
+import nl.dionsegijn.konfetti.core.Position;
+import nl.dionsegijn.konfetti.core.Rotation;
+import nl.dionsegijn.konfetti.core.emitter.Emitter;
+import nl.dionsegijn.konfetti.core.models.Shape;
+import nl.dionsegijn.konfetti.core.models.Size;
+import nl.dionsegijn.konfetti.xml.KonfettiView;
 
 /**
  * Score summary shown after the last question. Offers retaking the exact
@@ -79,6 +90,10 @@ public class QuizSummaryActivity extends AppCompatActivity {
         int percent = total > 0 ? Math.round((score / (float) total) * 100) : 0;
         percentText.setText(percent + "% correct");
 
+        if (percent >= 60) {
+            showConfetti();
+        }
+
         renderStrip(stripContainer, total);
 
         retakeButton.setOnClickListener(v -> {
@@ -112,6 +127,45 @@ public class QuizSummaryActivity extends AppCompatActivity {
             bar.setBackgroundResource(R.drawable.bg_quiz_strip_bar);
             container.addView(bar);
         }
+    }
+
+    /**
+     * Fires a short confetti burst from the top-center of the screen.
+     * Only called when the score is 60% or higher (see onCreate).
+     *
+     * Party's Kotlin constructor has default values for every parameter
+     * except emitter, but Java can't use Kotlin default arguments, so
+     * every field must be supplied explicitly in the exact declared order:
+     * angle, spread, speed, maxSpeed, damping, size, colors, shapes,
+     * timeToLive, fadeOutEnabled, position, delay, rotation, emitter.
+     */
+    private void showConfetti() {
+        KonfettiView konfettiView = findViewById(R.id.confettiView);
+
+        Party party = new Party(
+                Angle.BOTTOM,
+                60,
+                30f,
+                15f,
+                0.9f,
+                Arrays.asList(new Size(12, 5f, 0.2f)),
+                Arrays.asList(0xfce18a, 0xff726d, 0xf4306d, 0x6750A4, 0xb48def),
+                // NOTE: Shape.Square/Shape.Circle are Kotlin `object` singletons.
+                // .INSTANCE is the standard Kotlin->Java interop accessor, but this
+                // specific line is unverified against Konfetti's actual Shape.kt
+                // source. If this doesn't compile, try Shape.Square / Shape.Circle
+                // directly (no .INSTANCE), or check Shape.kt in the library's
+                // source jar (accessible via "Go to Declaration" in Android Studio).
+                Arrays.asList(Shape.Square.INSTANCE, Shape.Circle.INSTANCE),
+                2000L,
+                true,
+                new Position.Relative(0.5, 0.0),
+                0,
+                new Rotation(true, 1f, 0.5f, 8f, 1.5f),
+                new Emitter(2, TimeUnit.SECONDS).perSecond(40)
+        );
+
+        konfettiView.start(party);
     }
 
     private int dpToPx(int dp) {
