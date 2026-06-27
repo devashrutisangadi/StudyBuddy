@@ -20,6 +20,7 @@
     <color name="accent_purple_dark">#B5A8E8</color>        <!-- icon glyphs need to be even lighter to read on dark circles -->
     <color name="accent_purple_light_bg">#322D52</color>    <!-- the "light purple circle" becomes a muted dark-purple panel instead -->
     <color name="accent_purple_emphasis">#C2B8F0</color>     <!-- lighter than accent_purple_dark since the highlighted row's panel is now dark, not light -->
+    <color name="accent_purple_row_highlight">#241F38</color> <!-- subtler than accent_purple_light_bg - a full-width row highlight needs lower contrast than a small icon circle, or it reads as too loud against unhighlighted rows -->
 
 
     <!-- Success / correct -->

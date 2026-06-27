@@ -14,7 +14,7 @@
         android:layout_gravity="end"
         app:cardCornerRadius="18dp"
         app:cardElevation="0dp"
-        app:cardBackgroundColor="#6750A4">
+        app:cardBackgroundColor="@color/accent_purple">
 
         <TextView
             android:id="@+id/tvMessage"
