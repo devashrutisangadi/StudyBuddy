@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="150dp"
     android:layout_margin="10dp"
@@ -29,17 +30,16 @@
             android:layout_height="wrap_content"
             android:textSize="11sp"
             android:textStyle="bold"
-            android:textColor="#4A4A4A"
+            android:textColor="@color/text_primary"
             android:text="Created on date" />
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:cardBackgroundColor="#F2FFFFFF"
+            app:cardBackgroundColor="@color/background_card"
             app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"
-            xmlns:app="http://schemas.android.com/apk/res-auto">
+            app:cardElevation="0dp">
 
             <TextView
                 android:id="@+id/tvSubjectName"
@@ -50,12 +50,12 @@
                 android:textSize="13sp"
                 android:textStyle="bold"
                 android:textAllCaps="true"
-                android:textColor="#1C1B1F"
+                android:textColor="@color/text_primary"
                 android:maxLines="1"
                 android:ellipsize="end"
                 android:text="SUBJECT NAME" />
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 

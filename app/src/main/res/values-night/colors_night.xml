@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Backgrounds -->
+    <color name="background_primary">#16151A</color>       <!-- near-black, slightly warm to echo the cream's warmth -->
+    <color name="background_card">#211F26</color>          <!-- cards sit one step lighter than the screen background -->
+    <color name="background_card_alt">#2A2830</color>      <!-- nested cards one step lighter still -->
+
+    <!-- Text -->
+    <color name="text_primary">#F2F0EB</color>             <!-- soft off-white, not pure white (less harsh) -->
+    <color name="text_secondary">#A8A6A0</color>
+    <color name="text_hint">#6E6C68</color>
+
+    <!-- Borders / dividers -->
+    <color name="border_subtle">#3A3840</color>
+
+    <!-- Brand accent -->
+    <color name="accent_purple">#9683D6</color>             <!-- brightened/lifted from #6750A4 for visibility on dark bg -->
+    <color name="accent_purple_dark">#B5A8E8</color>        <!-- icon glyphs need to be even lighter to read on dark circles -->
+    <color name="accent_purple_light_bg">#322D52</color>    <!-- the "light purple circle" becomes a muted dark-purple panel instead -->
+
+    <!-- Success / correct -->
+    <color name="success_bg">#1E3318</color>
+    <color name="success_text">#A8D98C</color>
+    <color name="success_border">#7CB342</color>
+
+    <!-- Danger / destructive / incorrect -->
+    <color name="danger_bg">#3A1818</color>
+    <color name="danger_text">#E8A8A8</color>
+    <color name="danger_text_alt">#E8A8A8</color>
+    <color name="danger_border">#E0635F</color>
+
+    <!-- Pastel folder colors — richer/more saturated jewel-tones rather
+         than flat pastels, so they read as vivid against a dark
+         background instead of glowing (too light) or looking muddy
+         (too desaturated, which an earlier version of this palette did) -->
+    <color name="folder_coral">#8C3D3D</color>
+    <color name="folder_sage">#3D7A4A</color>
+    <color name="folder_yellow">#A37D1F</color>
+    <color name="folder_sky">#2E6FA3</color>
+    <color name="folder_lavender">#6B4FA8</color>
+    <color name="folder_peach">#A35D2E</color>
+
+</resources>

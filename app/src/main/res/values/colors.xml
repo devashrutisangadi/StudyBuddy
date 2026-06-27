@@ -1,5 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+
+    <!-- Backgrounds -->
+    <color name="background_primary">#FAF8F5</color>      <!-- screen backgrounds -->
+    <color name="background_card">#FFFFFF</color>          <!-- cards, dialogs, input fields -->
+    <color name="background_card_alt">#F1EFE8</color>      <!-- nested/secondary cards (e.g. quiz summary outer card) -->
+
+    <!-- Text -->
+    <color name="text_primary">#1C1B1F</color>             <!-- headings, primary body text -->
+    <color name="text_secondary">#7A7873</color>           <!-- dates, captions, helper text -->
+    <color name="text_hint">#9A9A9A</color>                <!-- input placeholders -->
+
+    <!-- Borders / dividers -->
+    <color name="border_subtle">#E5E1D8</color>            <!-- card strokes, dividers, outline buttons -->
+
+    <!-- Brand accent -->
+    <color name="accent_purple">#6750A4</color>             <!-- primary buttons, active states, FAB -->
+    <color name="accent_purple_dark">#534AB7</color>        <!-- icon glyph fill (slightly different hue used in icons) -->
+    <color name="accent_purple_light_bg">#EEEDFE</color>    <!-- light purple circles/highlights behind purple icons -->
+
+    <!-- Success / correct -->
+    <color name="success_bg">#EAF3DE</color>
+    <color name="success_text">#173404</color>
+    <color name="success_border">#639922</color>
+
+    <!-- Danger / destructive / incorrect -->
+    <color name="danger_bg">#FCEBEB</color>
+    <color name="danger_text">#501313</color>
+    <color name="danger_text_alt">#A32D2D</color>           <!-- used for destructive button/label text, slightly different from quiz-incorrect text -->
+    <color name="danger_border">#E24B4A</color>
+
+    <!-- Pastel folder colors (SubjectAdapter rotation) -->
+    <color name="folder_coral">#FFD3D3</color>
+    <color name="folder_sage">#D4F0D0</color>
+    <color name="folder_yellow">#FFF3B8</color>
+    <color name="folder_sky">#C9E4FF</color>
+    <color name="folder_lavender">#E3D5F5</color>
+    <color name="folder_peach">#FFE0C2</color>
+
 </resources>

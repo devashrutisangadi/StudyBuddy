@@ -3,28 +3,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FAF8F5">
+    android:background="@color/background_primary">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FAF8F5"
+        android:background="@color/background_primary"
         app:elevation="0dp">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="#FAF8F5"
+            android:background="@color/background_primary"
             app:title="My subjects"
-            app:titleTextColor="#1C1B1F" />
+            app:titleTextColor="@color/text_primary">
 
-        <androidx.cardview.widget.CardView
+            <ImageButton
+                android:id="@+id/btnSettings"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="end|center_vertical"
+                android:padding="12dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_settings_gear"
+                android:contentDescription="Settings" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="14dp"
-            app:cardBackgroundColor="#FFFFFF"
+            app:cardBackgroundColor="@color/background_card"
             app:cardCornerRadius="14dp"
             app:cardElevation="0dp">
 
@@ -48,15 +60,15 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:hint="Search a subject"
-                    android:textColorHint="#9A9A9A"
-                    android:textColor="#1C1B1F"
+                    android:textColorHint="@color/text_hint"
+                    android:textColor="@color/text_primary"
                     android:textSize="15sp"
                     android:inputType="text"
                     android:maxLines="1" />
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -77,7 +89,7 @@
         android:layout_gravity="center"
         android:text="No subjects yet. Tap + to add one."
         android:textSize="16sp"
-        android:textColor="#888888"
+        android:textColor="@color/text_secondary"
         android:visibility="gone" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -88,6 +100,6 @@
         android:layout_margin="24dp"
         android:src="@android:drawable/ic_input_add"
         app:tint="@android:color/white"
-        app:backgroundTint="#6750A4" />
+        app:backgroundTint="@color/accent_purple" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

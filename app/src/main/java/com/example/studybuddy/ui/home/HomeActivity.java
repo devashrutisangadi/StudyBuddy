@@ -6,10 +6,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -19,14 +19,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybuddy.R;
 import com.example.studybuddy.data.model.Subject;
+import com.example.studybuddy.ui.BaseActivity;
 import com.example.studybuddy.ui.chat.ChatActivity;
 import com.example.studybuddy.ui.notes.AddNotesActivity;
 import com.example.studybuddy.ui.quiz.QuizActivity;
+import com.example.studybuddy.ui.settings.SettingsActivity;
 import com.example.studybuddy.utils.QuizGenerator;
 import com.example.studybuddy.utils.StyledDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class HomeActivity extends AppCompatActivity implements SubjectActionsBottomSheet.Listener {
+public class HomeActivity extends BaseActivity implements SubjectActionsBottomSheet.Listener {
 
     private HomeViewModel viewModel;
     private SubjectAdapter adapter;
@@ -36,6 +38,7 @@ public class HomeActivity extends AppCompatActivity implements SubjectActionsBot
     private TextView tvEmptyState;
     private FloatingActionButton fabAddSubject;
     private EditText etSearchSubjects;
+    private ImageButton btnSettings;
 
     // Tracks which subject a quiz is currently being generated for, since
     // quizGenerator.generateQuiz() takes a subjectId but the result/error
@@ -59,6 +62,10 @@ public class HomeActivity extends AppCompatActivity implements SubjectActionsBot
         tvEmptyState = findViewById(R.id.tvEmptyState);
         fabAddSubject = findViewById(R.id.fabAddSubject);
         etSearchSubjects = findViewById(R.id.etSearchSubjects);
+        btnSettings = findViewById(R.id.btnSettings);
+
+        btnSettings.setOnClickListener(v ->
+                startActivity(new Intent(this, SettingsActivity.class)));
 
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 

@@ -1,11 +1,13 @@
 package com.example.studybuddy.ui.home;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybuddy.R;
@@ -23,14 +25,16 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
         void onLongClick(Subject subject);
     }
 
-    // Rotating folder colors — cycles per card position
-    private static final int[] FOLDER_COLORS = {
-            0xFFFFD3D3, // coral
-            0xFFD4F0D0, // sage green
-            0xFFFFF3B8, // warm yellow
-            0xFFC9E4FF, // sky blue
-            0xFFE3D5F5, // lavender
-            0xFFFFE0C2  // peach
+    // Rotating folder colors — cycles per card position. Resolved from
+    // color resources (not hardcoded ints) so the palette automatically
+    // switches between the light and values-night/colors.xml variants.
+    private static final int[] FOLDER_COLOR_RES_IDS = {
+            R.color.folder_coral,
+            R.color.folder_sage,
+            R.color.folder_yellow,
+            R.color.folder_sky,
+            R.color.folder_lavender,
+            R.color.folder_peach
     };
 
     // The complete, unfiltered list — this is the source of truth from the DB
@@ -94,7 +98,10 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
         // color stays consistent even while filtering
         int colorIndex = allSubjects.indexOf(subject);
         if (colorIndex == -1) colorIndex = position;
-        int color = FOLDER_COLORS[colorIndex % FOLDER_COLORS.length];
+
+        Context context = holder.itemView.getContext();
+        int colorResId = FOLDER_COLOR_RES_IDS[colorIndex % FOLDER_COLOR_RES_IDS.length];
+        int color = ContextCompat.getColor(context, colorResId);
 
         if (holder.viewFolderShape.getBackground() instanceof FolderShapeDrawable) {
             ((FolderShapeDrawable) holder.viewFolderShape.getBackground()).setFillColor(color);
