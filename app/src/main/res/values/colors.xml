@@ -13,11 +13,13 @@
 
     <!-- Borders / dividers -->
     <color name="border_subtle">#E5E1D8</color>            <!-- card strokes, dividers, outline buttons -->
+    <color name="drag_handle">#D9D5C9</color>               <!-- bottom sheet drag handle pill -->
 
     <!-- Brand accent -->
     <color name="accent_purple">#6750A4</color>             <!-- primary buttons, active states, FAB -->
     <color name="accent_purple_dark">#534AB7</color>        <!-- icon glyph fill (slightly different hue used in icons) -->
     <color name="accent_purple_light_bg">#EEEDFE</color>    <!-- light purple circles/highlights behind purple icons -->
+    <color name="accent_purple_emphasis">#3C3489</color>    <!-- darker purple used for emphasized icon/text on the highlighted Generate Quiz dropdown row -->
 
     <!-- Success / correct -->
     <color name="success_bg">#EAF3DE</color>
@@ -29,6 +31,7 @@
     <color name="danger_text">#501313</color>
     <color name="danger_text_alt">#A32D2D</color>           <!-- used for destructive button/label text, slightly different from quiz-incorrect text -->
     <color name="danger_border">#E24B4A</color>
+    <color name="danger_button">#A32D2D</color>             <!-- solid destructive button fill (Delete, Clear). Same as danger_text_alt in light mode, but kept separate since dark mode needs its own distinct value here rather than reusing the lighter text-on-dark-bg red -->
 
     <!-- Pastel folder colors (SubjectAdapter rotation) -->
     <color name="folder_coral">#FFD3D3</color>

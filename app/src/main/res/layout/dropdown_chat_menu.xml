@@ -31,7 +31,7 @@
             android:layout_marginStart="10dp"
             android:text="Add notes"
             android:textSize="14sp"
-            android:textColor="#1C1B1F" />
+            android:textColor="@color/text_primary" />
 
     </LinearLayout>
 
@@ -43,7 +43,8 @@
         android:gravity="center_vertical"
         android:clickable="true"
         android:focusable="true"
-        android:background="@drawable/bg_dropdown_menu_card"
+        android:background="@drawable/bg_dropdown_item_highlight"
+        android:foreground="?android:attr/selectableItemBackground"
         android:padding="10dp">
 
         <ImageView
@@ -60,14 +61,14 @@
             android:text="Generate quiz"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:textColor="#3C3489" />
+            android:textColor="@color/accent_purple_emphasis" />
 
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="#E5E1D8"
+        android:background="@color/border_subtle"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp" />
 
@@ -95,7 +96,7 @@
             android:layout_marginStart="10dp"
             android:text="Clear chat"
             android:textSize="14sp"
-            android:textColor="#A32D2D" />
+            android:textColor="@color/danger_text_alt" />
 
     </LinearLayout>
 

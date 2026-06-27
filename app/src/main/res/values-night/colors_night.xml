@@ -13,11 +13,14 @@
 
     <!-- Borders / dividers -->
     <color name="border_subtle">#3A3840</color>
+    <color name="drag_handle">#4A4750</color>
 
     <!-- Brand accent -->
     <color name="accent_purple">#9683D6</color>             <!-- brightened/lifted from #6750A4 for visibility on dark bg -->
     <color name="accent_purple_dark">#B5A8E8</color>        <!-- icon glyphs need to be even lighter to read on dark circles -->
     <color name="accent_purple_light_bg">#322D52</color>    <!-- the "light purple circle" becomes a muted dark-purple panel instead -->
+    <color name="accent_purple_emphasis">#C2B8F0</color>     <!-- lighter than accent_purple_dark since the highlighted row's panel is now dark, not light -->
+
 
     <!-- Success / correct -->
     <color name="success_bg">#1E3318</color>
@@ -29,6 +32,7 @@
     <color name="danger_text">#E8A8A8</color>
     <color name="danger_text_alt">#E8A8A8</color>
     <color name="danger_border">#E0635F</color>
+    <color name="danger_button">#C84444</color>             <!-- distinct from danger_text_alt - a punchier, more saturated red fit for a solid button fill rather than text on a dark background -->
 
     <!-- Pastel folder colors — richer/more saturated jewel-tones rather
          than flat pastels, so they read as vivid against a dark
