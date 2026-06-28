@@ -10,13 +10,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        android:background="#FAF8F5"
+        android:background="@color/background_primary"
         android:padding="32dp">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="#F1EFE8"
+            app:cardBackgroundColor="@color/background_card_alt"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp">
 
@@ -42,7 +42,7 @@
                     android:text="Quiz complete"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:textColor="#1C1B1F"
+                    android:textColor="@color/text_primary"
                     android:layout_marginBottom="4dp" />
 
                 <TextView
@@ -50,17 +50,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="13sp"
-                    android:textColor="#7A7873"
+                    android:textColor="@color/text_secondary"
                     android:layout_marginBottom="20dp"
                     tools:text="Cell Biology - Chapter 4" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardBackgroundColor="#FAF8F5"
+                    app:cardBackgroundColor="@color/background_primary"
                     app:cardCornerRadius="16dp"
                     app:cardElevation="0dp"
-                    app:strokeColor="#E5E1D8"
+                    app:strokeColor="@color/border_subtle"
                     app:strokeWidth="1dp"
                     android:layout_marginBottom="20dp">
 
@@ -77,7 +77,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="32sp"
                             android:textStyle="bold"
-                            android:textColor="#6750A4"
+                            android:textColor="@color/accent_purple"
                             tools:text="6 / 8" />
 
                         <TextView
@@ -85,7 +85,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="13sp"
-                            android:textColor="#7A7873"
+                            android:textColor="@color/text_secondary"
                             android:layout_marginTop="4dp"
                             tools:text="75% correct" />
 
@@ -121,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:text="Back to chat"
                     android:textSize="14sp"
-                    android:textColor="#1C1B1F"
+                    android:textColor="@color/text_primary"
                     android:gravity="center"
                     android:padding="14dp"
                     android:background="@drawable/bg_quiz_button_outline"

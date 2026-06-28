@@ -27,7 +27,7 @@
             android:gravity="center"
             android:textSize="13sp"
             android:textStyle="bold"
-            android:textColor="#534AB7"
+            android:textColor="@color/accent_purple_dark"
             android:fontFamily="sans-serif-medium"
             tools:text="A" />
 
@@ -49,7 +49,7 @@
         android:layout_weight="1"
         android:layout_marginStart="12dp"
         android:textSize="14sp"
-        android:textColor="#1C1B1F"
+        android:textColor="@color/text_primary"
         tools:text="Cursor" />
 
 </LinearLayout>

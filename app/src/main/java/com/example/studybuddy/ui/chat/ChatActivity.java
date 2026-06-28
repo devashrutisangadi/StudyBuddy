@@ -13,7 +13,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -22,10 +21,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybuddy.R;
+import com.example.studybuddy.ui.BaseActivity;
 import com.example.studybuddy.ui.notes.AddNotesActivity;
 import com.google.android.material.appbar.MaterialToolbar;
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends BaseActivity {
 
     private ChatViewModel viewModel;
     private ChatAdapter adapter;
@@ -45,7 +45,10 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        // System bar + IME-aware padding so the input bar stays above the keyboard
+        // BaseActivity already applies system-bar padding. This screen
+        // additionally needs IME-aware padding so the input bar stays
+        // above the keyboard, which BaseActivity doesn't handle — so we
+        // still need our own listener here, just only for the IME portion.
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             Insets ime = insets.getInsets(WindowInsetsCompat.Type.ime());
@@ -60,6 +63,10 @@ public class ChatActivity extends AppCompatActivity {
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(subjectName);
         setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
         rvChat = findViewById(R.id.rvChat);
         tvEmptyChat = findViewById(R.id.tvEmptyChat);

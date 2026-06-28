@@ -6,14 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FAF8F5">
+    android:background="@color/background_primary">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/quizToolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#FAF8F5"
-        app:titleTextColor="#1C1B1F"
+        android:background="@color/background_primary"
+        app:titleTextColor="@color/text_primary"
         app:title="Quiz" />
 
     <LinearLayout
@@ -37,7 +37,7 @@
                 android:layout_weight="1"
                 android:textSize="13sp"
                 android:textStyle="bold"
-                android:textColor="#6750A4"
+                android:textColor="@color/accent_purple"
                 tools:text="Question 3 of 8" />
 
             <TextView
@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
-                android:textColor="#7A7873"
+                android:textColor="@color/text_secondary"
                 tools:text="Score: 2" />
 
         </LinearLayout>
@@ -79,10 +79,10 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="#FFFFFF"
+                app:cardBackgroundColor="@color/background_card"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
-                app:strokeColor="#E5E1D8"
+                app:strokeColor="@color/border_subtle"
                 app:strokeWidth="1dp"
                 android:layout_marginBottom="16dp">
 
@@ -93,7 +93,7 @@
                     android:padding="18dp"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:textColor="#1C1B1F"
+                    android:textColor="@color/text_primary"
                     android:lineSpacingMultiplier="1.3"
                     tools:text="What data structure does Room use internally to map query results to Java objects?" />
 
@@ -114,7 +114,7 @@
                 android:layout_marginTop="14dp"
                 android:gravity="center"
                 android:textSize="12sp"
-                android:textColor="#7A7873"
+                android:textColor="@color/text_secondary"
                 android:text="Advancing in a moment…"
                 android:visibility="invisible" />
 

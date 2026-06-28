@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FAF8F5">
+    android:background="@color/background_primary">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/noteViewerToolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#FAF8F5"
-        app:titleTextColor="#1C1B1F"
+        android:background="@color/background_primary"
+        app:titleTextColor="@color/text_primary"
         app:title="Note" />
 
     <LinearLayout
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textSize="13sp"
-            android:textColor="#7A7873"
+            android:textColor="@color/text_secondary"
             tools:text="Added Jun 25, 2026 at 10:30 am" />
 
         <TextView
@@ -43,7 +43,7 @@
             android:paddingVertical="4dp"
             android:textSize="11sp"
             android:textStyle="bold"
-            android:textColor="#534AB7"
+            android:textColor="@color/accent_purple_dark"
             tools:text="PDF" />
 
     </LinearLayout>
@@ -65,10 +65,10 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:cardBackgroundColor="#FFFFFF"
+                app:cardBackgroundColor="@color/background_card"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
-                app:strokeColor="#E5E1D8"
+                app:strokeColor="@color/border_subtle"
                 app:strokeWidth="1dp">
 
                 <EditText
@@ -79,7 +79,7 @@
                     android:padding="18dp"
                     android:gravity="top|start"
                     android:textSize="15sp"
-                    android:textColor="#1C1B1F"
+                    android:textColor="@color/text_primary"
                     android:lineSpacingMultiplier="1.4"
                     android:inputType="textMultiLine"
                     android:scrollbars="vertical"

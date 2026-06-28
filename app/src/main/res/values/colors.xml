@@ -21,6 +21,7 @@
     <color name="accent_purple_light_bg">#EEEDFE</color>    <!-- light purple circles/highlights behind purple icons -->
     <color name="accent_purple_emphasis">#3C3489</color>    <!-- darker purple used for emphasized icon/text on the highlighted Generate Quiz dropdown row -->
     <color name="accent_purple_row_highlight">#EEEDFE</color> <!-- same as accent_purple_light_bg in light mode - dark mode uses a subtler dedicated value here, see colors_night.xml -->
+    <color name="accent_purple_strip">#AFA9EC</color>        <!-- mid-purple used for the quiz summary's generic per-question recap bars -->
 
     <!-- Success / correct -->
     <color name="success_bg">#EAF3DE</color>

@@ -11,7 +11,6 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -21,9 +20,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybuddy.R;
+import com.example.studybuddy.ui.BaseActivity;
 import com.google.android.material.appbar.MaterialToolbar;
 
-public class AddNotesActivity extends AppCompatActivity {
+public class AddNotesActivity extends BaseActivity {
 
     private NotesViewModel viewModel;
     private NoteAdapter noteAdapter;
@@ -79,6 +79,10 @@ public class AddNotesActivity extends AppCompatActivity {
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Notes — " + subjectName);
         setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
         viewModel = new ViewModelProvider(this).get(NotesViewModel.class);
 
