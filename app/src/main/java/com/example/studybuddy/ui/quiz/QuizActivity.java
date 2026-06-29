@@ -13,13 +13,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.studybuddy.R;
 import com.example.studybuddy.data.model.QuizQuestion;
+import com.example.studybuddy.ui.BaseActivity;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -37,7 +34,7 @@ import java.util.List;
  * Quiz data is passed in via static start() rather than Room, since quizzes
  * are NOT persisted -- they're regenerated fresh from notes each time.
  */
-public class QuizActivity extends AppCompatActivity {
+public class QuizActivity extends BaseActivity {
 
     private static final String EXTRA_SUBJECT_NAME = "subjectName";
     private static final String EXTRA_QUESTIONS_JSON = "questionsJson";
@@ -73,14 +70,6 @@ public class QuizActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
-
-        // System bar padding so the toolbar doesn't sit flush under the
-        // status bar (matches the pattern used in HomeActivity/ChatActivity).
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
         subjectName = getIntent().getStringExtra(EXTRA_SUBJECT_NAME);
         String questionsJson = getIntent().getStringExtra(EXTRA_QUESTIONS_JSON);

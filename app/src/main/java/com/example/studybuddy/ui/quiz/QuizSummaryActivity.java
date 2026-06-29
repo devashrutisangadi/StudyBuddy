@@ -7,13 +7,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
 import com.example.studybuddy.R;
 import com.example.studybuddy.data.model.QuizQuestion;
+import com.example.studybuddy.ui.BaseActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -34,7 +30,7 @@ import nl.dionsegijn.konfetti.xml.KonfettiView;
  * Score summary shown after the last question. Offers retaking the exact
  * same question set (no new Gemini call) or returning to the chat screen.
  */
-public class QuizSummaryActivity extends AppCompatActivity {
+public class QuizSummaryActivity extends BaseActivity {
 
     private static final String EXTRA_SUBJECT_NAME = "subjectName";
     private static final String EXTRA_SCORE = "score";
@@ -58,14 +54,6 @@ public class QuizSummaryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_summary);
-
-        // System bar padding for consistency with the rest of the app
-        // (HomeActivity/ChatActivity apply the same pattern).
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
         subjectName = getIntent().getStringExtra(EXTRA_SUBJECT_NAME);
         int score = getIntent().getIntExtra(EXTRA_SCORE, 0);
