@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
@@ -22,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybuddy.R;
 import com.example.studybuddy.ui.BaseActivity;
+import com.example.studybuddy.utils.StyledDialog;
 import com.google.android.material.appbar.MaterialToolbar;
 
 public class AddNotesActivity extends BaseActivity {
@@ -110,12 +110,9 @@ public class AddNotesActivity extends BaseActivity {
 
         noteAdapter = new NoteAdapter(
                 note -> {
-                    new AlertDialog.Builder(this)
-                            .setTitle("Delete this note?")
-                            .setMessage("This cannot be undone.")
-                            .setPositiveButton("Delete", (dialog, which) -> viewModel.deleteNote(note))
-                            .setNegativeButton("Cancel", null)
-                            .show();
+                    StyledDialog.confirmDanger(this, R.drawable.ic_sheet_delete,
+                            "Delete this note?", "This cannot be undone.",
+                            "Delete", "Cancel", () -> viewModel.deleteNote(note));
                 },
                 note -> NoteViewerActivity.start(this, note)
         );
