@@ -4,15 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#FAF8F5">
+    android:background="@color/background_primary">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#FAF8F5"
+        android:background="@color/background_primary"
         app:title="Add Notes"
-        app:titleTextColor="#1C1B1F" />
+        app:titleTextColor="@color/text_primary" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
             android:layout_weight="1"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
-            app:cardBackgroundColor="#6750A4">
+            app:cardBackgroundColor="@color/accent_purple">
 
             <TextView
                 android:id="@+id/btnTextTab"
@@ -54,7 +54,7 @@
             android:layout_marginStart="8dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
-            app:cardBackgroundColor="#FFFFFF">
+            app:cardBackgroundColor="@color/background_card">
 
             <TextView
                 android:id="@+id/btnPdfTab"
@@ -63,7 +63,7 @@
                 android:gravity="center"
                 android:padding="11dp"
                 android:text="PDF"
-                android:textColor="#6B6B6B"
+                android:textColor="@color/text_secondary"
                 android:textStyle="bold"
                 android:textSize="12sp"
                 android:clickable="true"
@@ -79,7 +79,7 @@
             android:layout_marginStart="8dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
-            app:cardBackgroundColor="#FFFFFF">
+            app:cardBackgroundColor="@color/background_card">
 
             <TextView
                 android:id="@+id/btnNotesListTab"
@@ -88,7 +88,7 @@
                 android:gravity="center"
                 android:padding="11dp"
                 android:text="My Notes"
-                android:textColor="#6B6B6B"
+                android:textColor="@color/text_secondary"
                 android:textStyle="bold"
                 android:textSize="12sp"
                 android:clickable="true"
@@ -114,7 +114,7 @@
             android:layout_weight="1"
             app:cardCornerRadius="16dp"
             app:cardElevation="1dp"
-            app:cardBackgroundColor="#FFFFFF">
+            app:cardBackgroundColor="@color/background_card">
 
             <EditText
                 android:id="@+id/etNoteText"
@@ -122,8 +122,8 @@
                 android:layout_height="match_parent"
                 android:gravity="top|start"
                 android:hint="Paste or type your notes here..."
-                android:textColorHint="#B0B0B0"
-                android:textColor="#1C1B1F"
+                android:textColorHint="@color/text_hint"
+                android:textColor="@color/text_primary"
                 android:inputType="textMultiLine"
                 android:background="@null"
                 android:padding="16dp" />
@@ -136,7 +136,7 @@
             android:layout_marginTop="14dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
-            app:cardBackgroundColor="#6750A4">
+            app:cardBackgroundColor="@color/accent_purple">
 
             <TextView
                 android:id="@+id/btnSaveText"
@@ -170,7 +170,7 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="18dp"
             app:cardElevation="1dp"
-            app:cardBackgroundColor="#FFFFFF">
+            app:cardBackgroundColor="@color/background_card">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -192,7 +192,7 @@
                     android:layout_height="wrap_content"
                     android:text="No file selected"
                     android:textSize="13sp"
-                    android:textColor="#6B6B6B"
+                    android:textColor="@color/text_secondary"
                     android:layout_marginBottom="18dp" />
 
                 <androidx.cardview.widget.CardView
@@ -200,7 +200,7 @@
                     android:layout_height="wrap_content"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="0dp"
-                    app:cardBackgroundColor="#F0EBFA">
+                    app:cardBackgroundColor="@color/accent_purple_light_bg">
 
                     <TextView
                         android:id="@+id/btnPickPdf"
@@ -209,7 +209,7 @@
                         android:paddingHorizontal="22dp"
                         android:paddingVertical="11dp"
                         android:text="Pick PDF"
-                        android:textColor="#6750A4"
+                        android:textColor="@color/accent_purple"
                         android:textStyle="bold"
                         android:textSize="13sp"
                         android:clickable="true"
@@ -223,7 +223,7 @@
                     android:layout_marginTop="12dp"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="0dp"
-                    app:cardBackgroundColor="#6750A4">
+                    app:cardBackgroundColor="@color/accent_purple">
 
                     <TextView
                         android:id="@+id/btnUploadPdf"
@@ -265,7 +265,7 @@
             android:layout_marginTop="40dp"
             android:text="No notes added yet for this subject."
             android:textSize="14sp"
-            android:textColor="#9A9A9A"
+            android:textColor="@color/text_hint"
             android:visibility="gone" />
 
         <androidx.recyclerview.widget.RecyclerView

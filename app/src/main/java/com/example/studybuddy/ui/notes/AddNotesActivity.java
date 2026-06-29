@@ -12,6 +12,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -41,10 +42,7 @@ public class AddNotesActivity extends BaseActivity {
     private Uri selectedPdfUri;
     private String selectedFileName;
 
-    private static final int COLOR_ACTIVE = 0xFF6750A4;
-    private static final int COLOR_INACTIVE = 0xFFFFFFFF;
-    private static final int TEXT_ACTIVE = 0xFFFFFFFF;
-    private static final int TEXT_INACTIVE = 0xFF6B6B6B;
+    private int colorActive, colorInactive, textColorActive, textColorInactive;
 
     // Which of the 3 tabs is selected: 0 = text, 1 = pdf, 2 = notes list
     private int selectedTab = 0;
@@ -64,6 +62,11 @@ public class AddNotesActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_notes);
+
+        colorActive = ContextCompat.getColor(this, R.color.accent_purple);
+        colorInactive = ContextCompat.getColor(this, R.color.background_card);
+        textColorActive = ContextCompat.getColor(this, android.R.color.white);
+        textColorInactive = ContextCompat.getColor(this, R.color.text_secondary);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -169,14 +172,14 @@ public class AddNotesActivity extends BaseActivity {
         layoutPdfInput.setVisibility(tab == 1 ? View.VISIBLE : View.GONE);
         layoutNotesList.setVisibility(tab == 2 ? View.VISIBLE : View.GONE);
 
-        cardTextTab.setCardBackgroundColor(tab == 0 ? COLOR_ACTIVE : COLOR_INACTIVE);
-        btnTextTab.setTextColor(tab == 0 ? TEXT_ACTIVE : TEXT_INACTIVE);
+        cardTextTab.setCardBackgroundColor(tab == 0 ? colorActive : colorInactive);
+        btnTextTab.setTextColor(tab == 0 ? textColorActive : textColorInactive);
 
-        cardPdfTab.setCardBackgroundColor(tab == 1 ? COLOR_ACTIVE : COLOR_INACTIVE);
-        btnPdfTab.setTextColor(tab == 1 ? TEXT_ACTIVE : TEXT_INACTIVE);
+        cardPdfTab.setCardBackgroundColor(tab == 1 ? colorActive : colorInactive);
+        btnPdfTab.setTextColor(tab == 1 ? textColorActive : textColorInactive);
 
-        cardNotesListTab.setCardBackgroundColor(tab == 2 ? COLOR_ACTIVE : COLOR_INACTIVE);
-        btnNotesListTab.setTextColor(tab == 2 ? TEXT_ACTIVE : TEXT_INACTIVE);
+        cardNotesListTab.setCardBackgroundColor(tab == 2 ? colorActive : colorInactive);
+        btnNotesListTab.setTextColor(tab == 2 ? textColorActive : textColorInactive);
     }
 
     private String getFileNameFromUri(Uri uri) {
