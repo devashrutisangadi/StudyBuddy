@@ -12,11 +12,10 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AlertDialog;
-
 import com.example.studybuddy.R;
 import com.example.studybuddy.data.model.QuizQuestion;
 import com.example.studybuddy.ui.BaseActivity;
+import com.example.studybuddy.utils.StyledDialog;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -112,12 +111,11 @@ public class QuizActivity extends BaseActivity {
             super.onBackPressed();
             return;
         }
-        new AlertDialog.Builder(this)
-                .setTitle("Quiz in progress")
-                .setMessage("Your progress on this quiz won't be saved. Exit anyway?")
-                .setPositiveButton("Exit", (dialog, which) -> super.onBackPressed())
-                .setNegativeButton("Keep going", null)
-                .show();
+        StyledDialog.confirmDanger(this, R.drawable.ic_dialog_warning,
+                "Quiz in progress",
+                "Your progress on this quiz won't be saved. Exit anyway?",
+                "Exit", "Keep going",
+                () -> super.onBackPressed());
     }
 
     private void renderQuestion(int index) {
