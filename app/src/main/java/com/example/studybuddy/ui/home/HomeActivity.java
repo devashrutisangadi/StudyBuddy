@@ -23,6 +23,7 @@ import com.example.studybuddy.ui.BaseActivity;
 import com.example.studybuddy.ui.chat.ChatActivity;
 import com.example.studybuddy.ui.notes.AddNotesActivity;
 import com.example.studybuddy.ui.quiz.QuizActivity;
+import com.example.studybuddy.ui.quiz.history.QuizHistoryActivity;
 import com.example.studybuddy.ui.settings.SettingsActivity;
 import com.example.studybuddy.utils.QuizGenerator;
 import com.example.studybuddy.utils.StyledDialog;
@@ -77,7 +78,7 @@ public class HomeActivity extends BaseActivity implements SubjectActionsBottomSh
         });
         quizGenerator.quizResult.observe(this, questions -> {
             if (questions != null && !questions.isEmpty() && pendingQuizSubject != null) {
-                QuizActivity.start(this, pendingQuizSubject.name, questions);
+                QuizActivity.start(this, pendingQuizSubject.id, pendingQuizSubject.name, questions);
                 pendingQuizSubject = null;
             }
         });
@@ -152,6 +153,11 @@ public class HomeActivity extends BaseActivity implements SubjectActionsBottomSh
         pendingQuizSubject = subject;
         quizGenerator.generateQuiz(subject.id);
         Toast.makeText(this, "Generating quiz from your notes...", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onQuizHistory(Subject subject) {
+        QuizHistoryActivity.start(this, subject.id, subject.name);
     }
 
     @Override

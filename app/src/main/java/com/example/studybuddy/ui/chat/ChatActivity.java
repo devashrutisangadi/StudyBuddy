@@ -103,7 +103,7 @@ public class ChatActivity extends BaseActivity {
 
         viewModel.quizResult.observe(this, questions -> {
             if (questions != null && !questions.isEmpty()) {
-                com.example.studybuddy.ui.quiz.QuizActivity.start(this, subjectName, questions);
+                com.example.studybuddy.ui.quiz.QuizActivity.start(this, subjectId, subjectName, questions);
             }
         });
 

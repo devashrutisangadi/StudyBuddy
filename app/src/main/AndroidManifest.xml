@@ -36,6 +36,8 @@
             android:exported="false"/>
         <activity android:name=".ui.quiz.QuizSummaryActivity"
             android:exported="false"/>
+        <activity android:name=".ui.quiz.history.QuizHistoryActivity"
+            android:exported="false"/>
         <activity android:name=".ui.notes.NoteViewerActivity"
             android:exported="false"/>
         <activity android:name=".ui.settings.SettingsActivity"

@@ -35,13 +35,15 @@ import java.util.List;
  */
 public class QuizActivity extends BaseActivity {
 
+    private static final String EXTRA_SUBJECT_ID = "subjectId";
     private static final String EXTRA_SUBJECT_NAME = "subjectName";
     private static final String EXTRA_QUESTIONS_JSON = "questionsJson";
     private static final long AUTO_ADVANCE_DELAY_MS = 1500L;
 
-    public static void start(Context context, String subjectName, List<QuizQuestion> questions) {
+    public static void start(Context context, int subjectId, String subjectName, List<QuizQuestion> questions) {
         String json = new Gson().toJson(questions);
         Intent intent = new Intent(context, QuizActivity.class);
+        intent.putExtra(EXTRA_SUBJECT_ID, subjectId);
         intent.putExtra(EXTRA_SUBJECT_NAME, subjectName);
         intent.putExtra(EXTRA_QUESTIONS_JSON, json);
         context.startActivity(intent);
@@ -49,11 +51,17 @@ public class QuizActivity extends BaseActivity {
 
     private List<QuizQuestion> questions;
     private String subjectName;
+    private int subjectId;
 
     private int currentIndex = 0;
     private int score = 0;
     private boolean isAnswerLocked = false;
     private boolean isQuizComplete = false;
+
+    // Tracks 0-based indices of questions answered incorrectly,
+    // collected during the quiz and passed to QuizSummaryActivity
+    // for per-question recap and Room persistence.
+    private final java.util.ArrayList<Integer> missedIndices = new java.util.ArrayList<>();
 
     private MaterialToolbar quizToolbar;
     private TextView questionCounterLabel;
@@ -70,6 +78,7 @@ public class QuizActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
+        subjectId = getIntent().getIntExtra(EXTRA_SUBJECT_ID, -1);
         subjectName = getIntent().getStringExtra(EXTRA_SUBJECT_NAME);
         String questionsJson = getIntent().getStringExtra(EXTRA_QUESTIONS_JSON);
 
@@ -166,6 +175,8 @@ public class QuizActivity extends BaseActivity {
         if (wasCorrect) {
             score++;
             scoreLabel.setText("Score: " + score);
+        } else {
+            missedIndices.add(currentIndex);
         }
 
         // Reveal correct/incorrect state on every option, not just the
@@ -214,8 +225,18 @@ public class QuizActivity extends BaseActivity {
         android.util.Log.d("QuizActivity", "showSummary() called - score=" + score + " total=" + questions.size());
         isQuizComplete = true;
         quizProgressBar.setProgress(100);
+
+        // Serialize missedIndices to comma-separated String for Room storage
+        // and Intent passing. Empty string for a perfect score.
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < missedIndices.size(); i++) {
+            if (i > 0) sb.append(",");
+            sb.append(missedIndices.get(i));
+        }
+        String missedIndicesStr = sb.toString();
+
         try {
-            QuizSummaryActivity.start(this, subjectName, score, questions.size(), questions);
+            QuizSummaryActivity.start(this, subjectId, subjectName, score, questions.size(), questions, missedIndicesStr);
             android.util.Log.d("QuizActivity", "QuizSummaryActivity.start() returned without throwing");
         } catch (Exception e) {
             android.util.Log.e("QuizActivity", "Failed to launch QuizSummaryActivity", e);

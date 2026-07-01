@@ -31,6 +31,7 @@ public class SubjectActionsBottomSheet extends BottomSheetDialogFragment {
     public interface Listener {
         void onOpenChat(Subject subject);
         void onGenerateQuiz(Subject subject);
+        void onQuizHistory(Subject subject);
         void onAddNotesText(Subject subject);
         void onUploadPdf(Subject subject);
         void onRenameRequested(Subject subject);
@@ -80,6 +81,13 @@ public class SubjectActionsBottomSheet extends BottomSheetDialogFragment {
             dismiss();
             if (listener != null && subject != null) {
                 listener.onGenerateQuiz(subject);
+            }
+        });
+
+        view.findViewById(R.id.rowQuizHistory).setOnClickListener(v -> {
+            dismiss();
+            if (listener != null && subject != null) {
+                listener.onQuizHistory(subject);
             }
         });
 

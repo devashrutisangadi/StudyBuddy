@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- Clock face outline -->
+    <path
+        android:fillColor="@color/accent_purple"
+        android:pathData="M12,2 C6.477,2 2,6.477 2,12 C2,17.523 6.477,22 12,22 C17.523,22 22,17.523 22,12 C22,6.477 17.523,2 12,2 Z M12,4 C16.418,4 20,7.582 20,12 C20,16.418 16.418,20 12,20 C7.582,20 4,16.418 4,12 C4,7.582 7.582,4 12,4 Z" />
+    <!-- Hour hand pointing to ~10 o'clock -->
+    <path
+        android:fillColor="@color/accent_purple"
+        android:pathData="M11,7 L13,7 L13,12.5 L11,12.5 Z" />
+    <!-- Minute hand pointing right -->
+    <path
+        android:fillColor="@color/accent_purple"
+        android:pathData="M12.5,11 L12.5,13 L16,13 L16,11 Z" />
+</vector>
