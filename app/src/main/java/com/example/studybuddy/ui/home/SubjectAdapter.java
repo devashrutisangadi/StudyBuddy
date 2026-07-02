@@ -12,11 +12,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybuddy.R;
 import com.example.studybuddy.data.model.Subject;
+import com.example.studybuddy.data.model.SubjectQuizSummary;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectViewHolder> {
 
@@ -43,6 +47,10 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
     // The currently displayed list — either the full list, or a filtered subset
     private List<Subject> visibleSubjects = new ArrayList<>();
 
+    // Latest quiz summaries keyed by subjectId. Subjects absent from this
+    // map have never had a quiz attempt — progress label is hidden for them.
+    private Map<Integer, SubjectQuizSummary> quizSummaries = new HashMap<>();
+
     private final OnSubjectClickListener listener;
 
     public SubjectAdapter(OnSubjectClickListener listener) {
@@ -53,6 +61,17 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
     public void setSubjects(List<Subject> subjects) {
         this.allSubjects = subjects != null ? subjects : new ArrayList<>();
         this.visibleSubjects = new ArrayList<>(this.allSubjects);
+        notifyDataSetChanged();
+    }
+
+    /** Call this when quiz summary data updates. */
+    public void setQuizSummaries(List<SubjectQuizSummary> summaries) {
+        quizSummaries = new HashMap<>();
+        if (summaries != null) {
+            for (SubjectQuizSummary s : summaries) {
+                quizSummaries.put(s.subjectId, s);
+            }
+        }
         notifyDataSetChanged();
     }
 
@@ -94,6 +113,17 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
                 .format(subject.createdAt);
         holder.tvDate.setText("Created on " + dateStr);
 
+        // Quiz progress label — shown only if this subject has at least one attempt
+        SubjectQuizSummary summary = quizSummaries.get(subject.id);
+        if (summary != null) {
+            String lastDate = new SimpleDateFormat("MMM d", Locale.getDefault())
+                    .format(new Date(summary.lastAttemptTimestamp));
+            holder.tvQuizProgress.setText("Last quiz " + lastDate + " · Best " + summary.bestScorePercent + "%");
+            holder.tvQuizProgress.setVisibility(View.VISIBLE);
+        } else {
+            holder.tvQuizProgress.setVisibility(View.GONE);
+        }
+
         // Color is based on position within the FULL list, so a subject's
         // color stays consistent even while filtering
         int colorIndex = allSubjects.indexOf(subject);
@@ -122,13 +152,14 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
     }
 
     static class SubjectViewHolder extends RecyclerView.ViewHolder {
-        TextView tvName, tvDate;
+        TextView tvName, tvDate, tvQuizProgress;
         View viewFolderShape;
 
         SubjectViewHolder(View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvSubjectName);
             tvDate = itemView.findViewById(R.id.tvSubjectDate);
+            tvQuizProgress = itemView.findViewById(R.id.tvQuizProgress);
             viewFolderShape = itemView.findViewById(R.id.viewFolderShape);
         }
     }

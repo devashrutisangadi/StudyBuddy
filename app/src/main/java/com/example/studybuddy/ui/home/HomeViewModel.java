@@ -6,6 +6,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.studybuddy.data.model.Subject;
+import com.example.studybuddy.data.model.SubjectQuizSummary;
+import com.example.studybuddy.data.repository.QuizAttemptRepository;
 import com.example.studybuddy.data.repository.SubjectRepository;
 
 import java.util.List;
@@ -13,14 +15,26 @@ import java.util.List;
 public class HomeViewModel extends AndroidViewModel {
 
     private final SubjectRepository subjectRepository;
+    private final QuizAttemptRepository quizAttemptRepository;
 
     public HomeViewModel(Application application) {
         super(application);
         subjectRepository = new SubjectRepository(application);
+        quizAttemptRepository = new QuizAttemptRepository(application);
     }
 
     public LiveData<List<Subject>> getAllSubjects() {
         return subjectRepository.getAllSubjects();
+    }
+
+    /**
+     * Returns one summary row per subject that has at least one quiz attempt
+     * (subjectId, lastAttemptTimestamp, bestScorePercent). Subjects with no
+     * attempts are absent from the list — SubjectAdapter treats a missing
+     * entry as "no quiz taken yet" and hides the progress label.
+     */
+    public LiveData<List<SubjectQuizSummary>> getQuizSummaries() {
+        return quizAttemptRepository.getAllSubjectSummaries();
     }
 
     public void addSubject(String name) {

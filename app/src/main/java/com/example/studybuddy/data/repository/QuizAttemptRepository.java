@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import com.example.studybuddy.data.db.AppDatabase;
 import com.example.studybuddy.data.db.QuizAttemptDao;
 import com.example.studybuddy.data.model.QuizAttempt;
+import com.example.studybuddy.data.model.SubjectQuizSummary;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -36,5 +37,9 @@ public class QuizAttemptRepository {
 
     public LiveData<List<QuizAttempt>> getAttemptsBySubject(int subjectId) {
         return dao.getAttemptsBySubject(subjectId);
+    }
+
+    public LiveData<List<SubjectQuizSummary>> getAllSubjectSummaries() {
+        return dao.getAllSubjectSummaries();
     }
 }

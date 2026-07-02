@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studybuddy.R;
 import com.example.studybuddy.data.model.Subject;
+import com.example.studybuddy.data.model.SubjectQuizSummary;
 import com.example.studybuddy.ui.BaseActivity;
 import com.example.studybuddy.ui.chat.ChatActivity;
 import com.example.studybuddy.ui.notes.AddNotesActivity;
@@ -110,6 +111,9 @@ public class HomeActivity extends BaseActivity implements SubjectActionsBottomSh
             adapter.setSubjects(subjects);
             updateEmptyState();
         });
+
+        viewModel.getQuizSummaries().observe(this, summaries ->
+                adapter.setQuizSummaries(summaries));
 
         fabAddSubject.setOnClickListener(v -> showAddSubjectDialog());
 
