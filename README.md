@@ -6,12 +6,44 @@ Built in Java for Android (min SDK 26), using the Gemini API for AI features.
 
 ---
 
+## Screenshots
+
+<table>
+  <tr>
+    <td align="center"><b>Home</b></td>
+    <td align="center"><b>AI Chat</b></td>
+    <td align="center"><b>Add Notes (Text)</b></td>
+    <td align="center"><b>Add Notes (PDF)</b></td>
+  </tr>
+  <tr>
+    <td><img src="screenshots/home.jpg" width="180"/></td>
+    <td><img src="screenshots/chat.jpg" width="180"/></td>
+    <td><img src="screenshots/notes_text.jpg" width="180"/></td>
+    <td><img src="screenshots/notes_pdf.jpg" width="180"/></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Quiz</b></td>
+    <td align="center"><b>Answer Revealed</b></td>
+    <td align="center"><b>Quiz Summary</b></td>
+    <td align="center"><b>Quiz History</b></td>
+  </tr>
+  <tr>
+    <td><img src="screenshots/quiz.jpg" width="180"/></td>
+    <td><img src="screenshots/quiz_answer.jpg" width="180"/></td>
+    <td><img src="screenshots/quiz_summary.jpg" width="180"/></td>
+    <td><img src="screenshots/quiz_history.jpg" width="180"/></td>
+  </tr>
+</table>
+
+---
+
 ## Features
 
 **Subjects & organisation**
 - Create subjects (displayed as colour-coded folder cards on the Home screen)
 - Rename or delete subjects via a bottom sheet action menu
 - Search subjects by name from the Home screen
+- Folder cards show "Last quiz [date] · Best [N]%" for subjects with at least one quiz attempt
 
 **Notes**
 - Add text notes by typing or pasting directly
@@ -37,7 +69,6 @@ Built in Java for Android (min SDK 26), using the Gemini API for AI features.
 - Every completed attempt is saved to Room (`subjectId`, `score`, `total`, `timestamp`, missed question indices)
 - View history per subject from the bottom sheet or the summary screen
 - History screen shows each attempt's date, score, and a per-question correct/incorrect dot strip
-- Home screen folder cards show "Last quiz [date] · Best [N]%" for subjects with at least one attempt
 
 **Dark mode**
 - Manual toggle in Settings (persisted via `SharedPreferences`, applied via `AppCompatDelegate`)
@@ -110,11 +141,19 @@ Open in Android Studio, sync Gradle, and run on a device or emulator running API
 
 ---
 
+## Download
+
+Grab the latest APK from the [Releases](../../releases/latest) page — no build required.
+
+> The APK is a debug build signed with a dev key. On install Android may warn you about installing from unknown sources — this is expected for sideloaded APKs.
+
+---
+
 ## Database
 
 Room database: `study_buddy_db`, currently at schema version 2.
 
-`fallbackToDestructiveMigration()` is in use — this is intentional for a dev build. Add explicit `Migration` objects before any production release if you need to preserve user data across schema changes.
+`fallbackToDestructiveMigration()` is in use — intentional for a dev build. Add explicit `Migration` objects before any production release if you need to preserve user data across schema changes.
 
 ---
 
@@ -134,7 +173,7 @@ Room database: `study_buddy_db`, currently at schema version 2.
 
 | Screen | Description |
 |---|---|
-| Home | Subject folder grid, search, settings access |
+| Home | Subject folder grid, search, settings access, quiz progress on cards |
 | Chat | Per-subject AI chat grounded in notes |
 | Add Notes | Three-tab interface: type text, upload PDF, view saved notes |
 | Note Viewer | Full-screen note view/edit (text) or read-only (PDF-derived) |
