@@ -1,4 +1,4 @@
-# AI Study Buddy
+# Sourcely - AI Study Buddy
 
 An Android app that turns your notes into an AI-powered study assistant. Add notes by typing or uploading PDFs, ask questions about them in a subject-specific chat, generate quizzes on demand, and track your quiz history over time.
 
