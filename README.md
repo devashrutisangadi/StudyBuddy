@@ -16,10 +16,10 @@ Built in Java for Android (min SDK 26), using the Gemini API for AI features.
     <td align="center"><b>Add Notes (PDF)</b></td>
   </tr>
   <tr>
-    <td><img src="screenshots/home.jpg" width="180"/></td>
-    <td><img src="screenshots/chat.jpg" width="180"/></td>
-    <td><img src="screenshots/notes_text.jpg" width="180"/></td>
-    <td><img src="screenshots/notes_pdf.jpg" width="180"/></td>
+    <td><img src="screenshots/home.jpeg" width="180"/></td>
+    <td><img src="screenshots/chat.jpeg" width="180"/></td>
+    <td><img src="screenshots/notes_text.jpeg" width="180"/></td>
+    <td><img src="screenshots/notes_pdf.jpeg" width="180"/></td>
   </tr>
   <tr>
     <td align="center"><b>Quiz</b></td>
@@ -28,10 +28,10 @@ Built in Java for Android (min SDK 26), using the Gemini API for AI features.
     <td align="center"><b>Quiz History</b></td>
   </tr>
   <tr>
-    <td><img src="screenshots/quiz.jpg" width="180"/></td>
-    <td><img src="screenshots/quiz_answer.jpg" width="180"/></td>
-    <td><img src="screenshots/quiz_summary.jpg" width="180"/></td>
-    <td><img src="screenshots/quiz_history.jpg" width="180"/></td>
+    <td><img src="screenshots/quiz.jpeg" width="180"/></td>
+    <td><img src="screenshots/quiz_answer.jpeg" width="180"/></td>
+    <td><img src="screenshots/quiz_summary.jpeg" width="180"/></td>
+    <td><img src="screenshots/quiz_history.jpeg" width="180"/></td>
   </tr>
 </table>
 
